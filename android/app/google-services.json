@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "291630506544",
+    "project_id": "sportsapp-753c6",
+    "storage_bucket": "sportsapp-753c6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:291630506544:android:a59fee30c8001d3ed303f5",
+        "android_client_info": {
+          "package_name": "com.example.flutter_fiers"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "291630506544-4g6qj6c2u3ih4rthnvhm6jiqeicblgea.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDRx_FcdXDcxJ7RL4ZYOL4V31LjpSxZYn4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "291630506544-4g6qj6c2u3ih4rthnvhm6jiqeicblgea.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

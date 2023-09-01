@@ -7,7 +7,7 @@ import 'package:lottie/lottie.dart';
 
 class LeagueScreen extends StatelessWidget {
   final int idleague;
-  
+
   const LeagueScreen({super.key, required this.idleague});
   double getResponsiveHeight(double percentage, BuildContext context) {
     return MediaQuery.of(context).size.height * percentage;
@@ -130,7 +130,7 @@ class LeagueScreen extends StatelessWidget {
                                             backgroundImage: NetworkImage(
                                               state.response.result[i]
                                                       .leagueLogo ??
-                                                  "https://upload.wikimedia.org/wikipedia/en/3/33/FL_Greece_Logo.png",
+                                                  "https://i.pinimg.com/564x/cd/d1/51/cdd151f85578f3d054c37e20baa2dfae.jpg",
                                             ),
                                           ),
                                           SizedBox(
@@ -261,10 +261,11 @@ class LeagueScreen extends StatelessWidget {
                                     MaterialPageRoute<void>(
                                       builder: (BuildContext context) =>
                                           TeamsScoresScreen(
-                                              id: state.response.result[index]
-                                                  .leagueKey,
-                                              name: state.response.result[index]
-                                                  .leagueName,),
+                                        id: state
+                                            .response.result[index].leagueKey,
+                                        name: state
+                                            .response.result[index].leagueName,
+                                      ),
                                     ),
                                   );
                                 },
@@ -291,7 +292,7 @@ class LeagueScreen extends StatelessWidget {
                                           backgroundImage: NetworkImage(
                                             state.response.result[index]
                                                     .leagueLogo ??
-                                                "https://upload.wikimedia.org/wikipedia/en/3/33/FL_Greece_Logo.png",
+                                                "https://i.pinimg.com/564x/cd/d1/51/cdd151f85578f3d054c37e20baa2dfae.jpg",
                                           ),
                                         ),
                                         SizedBox(

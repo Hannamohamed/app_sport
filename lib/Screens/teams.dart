@@ -64,29 +64,29 @@ class _TeamsScoresScreen extends State<TeamsScoresScreen>
           backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
           appBar: AppBar(
             automaticallyImplyLeading: false,
-            backgroundColor: Colors.blue,
+            backgroundColor: Color.fromRGBO(101, 158, 199, 1),
             title: Center(
                 child: Text(
               "Select Team",
-              style: GoogleFonts.nunito(
+              style: GoogleFonts.robotoSlab(
                   color: Colors.white,
                   fontSize: 20,
-                  fontWeight: FontWeight.w500),
+                  fontWeight: FontWeight.w600),
             )),
             bottom: PreferredSize(
               preferredSize: const Size.fromHeight(kToolbarHeight),
               child: Container(
-                color: Colors.blue,
+                color: Color.fromRGBO(101, 158, 199, 1),
                 child: TabBar(
                   indicatorColor: Colors.white,
-                  dividerColor: Colors.blue,
+                  dividerColor: Color.fromRGBO(101, 158, 199, 1),
                   indicatorSize: TabBarIndicatorSize.label,
                   controller: _tabController,
                   tabs: [
                     Tab(
                         child: Text(
                       "Teams",
-                      style: GoogleFonts.nunito(
+                      style: GoogleFonts.robotoSlab(
                         color: (state is TeamsScoresTeams)
                             ? Colors.white
                             : const Color.fromARGB(255, 240, 240, 240),
@@ -99,7 +99,7 @@ class _TeamsScoresScreen extends State<TeamsScoresScreen>
                     Tab(
                         child: Text(
                       "Top Scorer",
-                      style: GoogleFonts.nunito(
+                      style: GoogleFonts.robotoSlab(
                         color: (state is TeamsScoresTopScorers)
                             ? Colors.white
                             : const Color.fromARGB(255, 240, 240, 240),
@@ -123,7 +123,7 @@ class _TeamsScoresScreen extends State<TeamsScoresScreen>
             ),
           ),
           body: Container(
-            color: Colors.blue,
+            color: Color.fromRGBO(101, 158, 199, 1),
             child: Stack(
               children: [
                 Align(
@@ -179,7 +179,7 @@ class _TeamsScoresScreen extends State<TeamsScoresScreen>
                                               BorderRadius.circular(25.0),
                                         ),
                                         hintText: 'Search',
-                                        hintStyle: GoogleFonts.nunito(
+                                        hintStyle: GoogleFonts.robotoSlab(
                                           fontSize: 16,
                                           color: const Color.fromARGB(
                                               255, 197, 194, 194),
@@ -233,12 +233,18 @@ class _TeamsScoresScreen extends State<TeamsScoresScreen>
                                                     const EdgeInsets.all(5.0),
                                                 child: InkWell(
                                                   onTap: () {
-                                                     // searchPlayer.text = "";
+                                                    // searchPlayer.text = "";
                                                     Navigator.push(
                                                       context,
                                                       MaterialPageRoute(
-                                                        builder: (context) =>
-        Players(id:state.ourresponse.result![index].teamKey!,),
+                                                        builder: (BuildContext
+                                                                context) =>
+                                                            Players(
+                                                                id: state
+                                                                    .ourresponse
+                                                                    .result![
+                                                                        index]
+                                                                    .teamKey!),
                                                       ),
                                                     );
                                                   },
@@ -279,8 +285,12 @@ class _TeamsScoresScreen extends State<TeamsScoresScreen>
                                                                     Icons
                                                                         .person,
                                                                     size: 85,
-                                                                    color: Colors
-                                                                        .blue,
+                                                                    color: Color
+                                                                        .fromRGBO(
+                                                                            65,
+                                                                            98,
+                                                                            126,
+                                                                            1),
                                                                   ),
                                                                   fit: BoxFit
                                                                       .cover,
@@ -300,11 +310,15 @@ class _TeamsScoresScreen extends State<TeamsScoresScreen>
                                                                   style: GoogleFonts.quicksand(
                                                                       fontSize:
                                                                           14.sp,
-                                                                      color: Colors
-                                                                          .blue,
+                                                                      color: Color
+                                                                          .fromRGBO(
+                                                                              65,
+                                                                              98,
+                                                                              126,
+                                                                              1),
                                                                       fontWeight:
                                                                           FontWeight
-                                                                              .w500),
+                                                                              .w600),
                                                                 ),
                                                               ),
                                                             ]),
@@ -370,7 +384,8 @@ class _TeamsScoresScreen extends State<TeamsScoresScreen>
                                           child: Row(
                                             children: [
                                               CircleAvatar(
-                                                backgroundColor: Colors.blue,
+                                                backgroundColor: Color.fromRGBO(
+                                                    101, 158, 199, 1),
                                                 radius: ScreenUtil()
                                                             .orientation ==
                                                         Orientation.landscape
@@ -382,7 +397,7 @@ class _TeamsScoresScreen extends State<TeamsScoresScreen>
                                                 child: Text(
                                                   '${i + 1}',
                                                   textAlign: TextAlign.center,
-                                                  style: GoogleFonts.nunito(
+                                                  style: GoogleFonts.robotoSlab(
                                                     fontSize: 17.sp,
                                                     color: Colors.white,
                                                     fontWeight: FontWeight.bold,
@@ -398,9 +413,11 @@ class _TeamsScoresScreen extends State<TeamsScoresScreen>
                                                     Text(
                                                       state.response.result[i]
                                                           .playerName!,
-                                                      style: GoogleFonts.nunito(
+                                                      style: GoogleFonts
+                                                          .robotoSlab(
                                                         fontSize: 18.sp,
-                                                        color: Colors.blue,
+                                                        color: Color.fromRGBO(
+                                                            101, 158, 199, 1),
                                                         fontWeight:
                                                             FontWeight.w600,
                                                       ),
@@ -414,10 +431,14 @@ class _TeamsScoresScreen extends State<TeamsScoresScreen>
                                                           Text(
                                                             "Team Name: ",
                                                             style: GoogleFonts
-                                                                .nunito(
+                                                                .robotoSlab(
                                                               fontSize: 14.sp,
-                                                              color:
-                                                                  Colors.blue,
+                                                              color: Color
+                                                                  .fromRGBO(
+                                                                      101,
+                                                                      158,
+                                                                      199,
+                                                                      1),
                                                               fontWeight:
                                                                   FontWeight
                                                                       .bold,
@@ -429,10 +450,14 @@ class _TeamsScoresScreen extends State<TeamsScoresScreen>
                                                                 .result[i]
                                                                 .teamName!,
                                                             style: GoogleFonts
-                                                                .nunito(
+                                                                .robotoSlab(
                                                               fontSize: 14.sp,
-                                                              color:
-                                                                  Colors.blue,
+                                                              color: Color
+                                                                  .fromRGBO(
+                                                                      101,
+                                                                      158,
+                                                                      199,
+                                                                      1),
                                                             ),
                                                           ),
                                                         ],
@@ -443,9 +468,14 @@ class _TeamsScoresScreen extends State<TeamsScoresScreen>
                                                         Text(
                                                           "Goals: ",
                                                           style: GoogleFonts
-                                                              .nunito(
+                                                              .robotoSlab(
                                                             fontSize: 14.sp,
-                                                            color: Colors.blue,
+                                                            color:
+                                                                Color.fromRGBO(
+                                                                    101,
+                                                                    158,
+                                                                    199,
+                                                                    1),
                                                             fontWeight:
                                                                 FontWeight.bold,
                                                           ),
@@ -453,9 +483,14 @@ class _TeamsScoresScreen extends State<TeamsScoresScreen>
                                                         Text(
                                                           "${state.response.result[i].goals!}",
                                                           style: GoogleFonts
-                                                              .nunito(
+                                                              .robotoSlab(
                                                             fontSize: 14.sp,
-                                                            color: Colors.blue,
+                                                            color:
+                                                                Color.fromRGBO(
+                                                                    101,
+                                                                    158,
+                                                                    199,
+                                                                    1),
                                                           ),
                                                         ),
                                                       ],

@@ -32,20 +32,25 @@ class HomeScreen extends StatelessWidget {
     return InkWell(
       onTap: () {
         if (index == 0) {
-           Navigator.push(context,  MaterialPageRoute<void>(
-           builder: (BuildContext context) =>  CountriesScreen(),),);
+          Navigator.push(
+            context,
+            MaterialPageRoute<void>(
+              builder: (BuildContext context) => CountriesScreen(),
+            ),
+          );
         } else {
           showDialog(
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
-                title: Text('Alert',
+                title: Text('Wait!',
                     style: GoogleFonts.robotoSlab(
                         color: Color.fromRGBO(65, 98, 126, 1),
                         fontWeight: FontWeight.w600)),
                 content: Text('Coming Soon',
                     style: GoogleFonts.robotoSlab(
-                        color: Color.fromRGBO(65, 98, 126, 1))),
+                        color: Color.fromRGBO(65, 98, 126, 1),
+                        fontWeight: FontWeight.w600)),
                 actions: [
                   ElevatedButton(
                     onPressed: () {
@@ -80,11 +85,11 @@ class HomeScreen extends StatelessWidget {
               SvgPicture.asset(
                 images[index],
                 height:
-                    getResponsiveHeight(0.14, context), // Responsive SVG height
+                    getResponsiveHeight(0.1, context), // Responsive SVG height
               ),
               SizedBox(
-                  height:
-                      getResponsiveHeight(0.02, context)), // Responsive spacing
+                  height: getResponsiveHeight(
+                      0.015, context)), // Responsive spacing
               Text(
                 names[index],
                 style: GoogleFonts.robotoSlab(

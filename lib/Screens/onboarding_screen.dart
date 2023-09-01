@@ -4,6 +4,7 @@ import 'package:flutter_fiers/Screens/contaniers_onboarding.dart';
 import 'package:flutter_fiers/Screens/countries.dart';
 import 'package:flutter_fiers/Screens/home.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class PageSwapperWidget extends StatefulWidget {
@@ -44,15 +45,44 @@ class _PageSwapperWidgetState extends State<PageSwapperWidget> {
   @override
   void initState() {
     super.initState();
-    // Auto-play pages every 3 seconds
-    Timer.periodic(Duration(seconds: 3), (Timer timer) {
-      if (_currentPage < _totalPages - 1) {
-        _currentPage++;
+    hasSeenOnboarding().then((bool hasSeen) {
+      if (hasSeen) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => HomeScreen()),
+        );
       } else {
-        _currentPage = 0;
+        // Auto-play pages every 3 seconds
+        Timer.periodic(Duration(seconds: 3), (Timer timer) {
+          if (_currentPage < _totalPages - 1) {
+            _currentPage++;
+          } else {
+            _currentPage = 0;
+          }
+          _pageController.jumpToPage(_currentPage);
+        });
       }
-      _pageController.jumpToPage(_currentPage);
     });
+    // Auto-play pages every 3 seconds
+    //  Timer.periodic(Duration(seconds: 3), (Timer timer) {
+    //    if (_currentPage < _totalPages - 1) {
+    //      _currentPage++;
+    //    } else {
+    //      _currentPage = 0;
+    //    }
+    //    _pageController.jumpToPage(_currentPage);
+    // }
+    // );
+  }
+
+  Future<bool> hasSeenOnboarding() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool('hasSeenOnboarding') ?? false;
+  }
+
+  Future<void> markOnboardingAsSeen() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('hasSeenOnboarding', true);
   }
 
   @override
@@ -82,14 +112,17 @@ class _PageSwapperWidgetState extends State<PageSwapperWidget> {
                           backgroundColor: Colors.white),
                       child: Text(
                         'Skip',
-                        style:
-                            GoogleFonts.dancingScript(color: Color(0xff659EC7)),
+                        style: GoogleFonts.robotoSlab(color: Color(0xff659EC7)),
                       ),
                       onPressed: () {
-                         Navigator.pushReplacement(
-         context,
-        MaterialPageRoute(builder: (context) => HomeScreen()),
-       );
+                        setState(() {
+                          markOnboardingAsSeen();
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HomeScreen()),
+                          );
+                        });
                       },
                     ),
                   ),
@@ -152,11 +185,18 @@ class _PageSwapperWidgetState extends State<PageSwapperWidget> {
                       style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.white),
                       onPressed: () {
-                        // Handle done button press
+                        setState(() {
+                          markOnboardingAsSeen();
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HomeScreen()),
+                          );
+                        });
                       },
                       child: Text('Done',
-                          style: GoogleFonts.dancingScript(
-                              color: Color(0xff659EC7))),
+                          style:
+                              GoogleFonts.robotoSlab(color: Color(0xff659EC7))),
                     ),
                   ),
                 ],

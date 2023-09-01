@@ -1,28 +1,50 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_fiers/Screens/home.dart';
 import 'package:flutter_fiers/Screens/onboarding_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 class splashscreen extends StatefulWidget {
-   splashscreen({super.key});
+  splashscreen({super.key});
 
   @override
   State<splashscreen> createState() => _splashscreenState();
 }
 
-class _splashscreenState extends State<splashscreen> with SingleTickerProviderStateMixin {
+class _splashscreenState extends State<splashscreen>
+    with SingleTickerProviderStateMixin {
   late AnimationController _logocontroller;
-  
+
+  Future<bool> hasSeenOnboarding() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool('hasSeenOnboarding') ?? false;
+  }
+
   @override
   void initState() {
     super.initState();
-    _logocontroller = AnimationController(vsync: this, duration: Duration(seconds: 1));
+    _logocontroller =
+        AnimationController(vsync: this, duration: Duration(seconds: 1));
     _logocontroller.forward();
 
-    Timer(
-      Duration(seconds: 2), () {
-       Navigator.pushReplacement(
-         context,
-        MaterialPageRoute(builder: (context) =>PageSwapperWidget()),
-       );
+    Timer(Duration(seconds: 2), () {
+      //  Navigator.pushReplacement(
+      //    context,
+      //   MaterialPageRoute(builder: (context) =>PageSwapperWidget()),
+      //  );
+      hasSeenOnboarding().then((bool hasSeen) {
+        if (hasSeen) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => HomeScreen()),
+          );
+        } else {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => PageSwapperWidget()),
+          );
+        }
+      });
     });
   }
 
@@ -48,7 +70,7 @@ class _splashscreenState extends State<splashscreen> with SingleTickerProviderSt
                 ),
               ),
             ),
-             Center(
+            Center(
               child: ScaleTransition(
                 scale: _logocontroller,
                 child: Image.asset(

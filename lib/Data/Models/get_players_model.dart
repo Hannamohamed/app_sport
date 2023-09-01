@@ -24,7 +24,7 @@ class Result {
     required this.playerKey,
     required this.playerName,
     required this.playerNumber,
-    this.playerCountry,
+    required this.playerCountry,
     required this.playerType,
     required this.playerAge,
     required this.playerMatchPlayed,
@@ -65,49 +65,49 @@ class Result {
     required this.teamKey,
     required this.playerImage,
   });
-  late final int playerKey;
-  late final String playerName;
-  late final String playerNumber;
-  late final Null playerCountry;
-  late final String playerType;
-  late final String playerAge;
-  late final String playerMatchPlayed;
-  late final String playerGoals;
-  late final String playerYellowCards;
-  late final String playerRedCards;
-  late final String playerMinutes;
-  late final String playerInjured;
-  late final String playerSubstituteOut;
-  late final String playerSubstitutesOnBench;
-  late final String playerAssists;
-  late final String playerIsCaptain;
-  late final String playerShotsTotal;
-  late final String playerGoalsConceded;
-  late final String playerFoulsCommited;
-  late final String playerTackles;
-  late final String playerBlocks;
-  late final String playerCrossesTotal;
-  late final String playerInterceptions;
-  late final String playerClearances;
-  late final String playerDispossesed;
-  late final String playerSaves;
-  late final String playerInsideBoxSaves;
-  late final String playerDuelsTotal;
-  late final String playerDuelsWon;
-  late final String playerDribbleAttempts;
-  late final String playerDribbleSucc;
-  late final String playerPenComm;
-  late final String playerPenWon;
-  late final String playerPenScored;
-  late final String playerPenMissed;
-  late final String playerPasses;
-  late final String playerPassesAccuracy;
-  late final String playerKeyPasses;
-  late final String playerWoordworks;
-  late final String playerRating;
-  late final String teamName;
-  late final int teamKey;
-  late final String playerImage;
+  late final int? playerKey;
+  late final String? playerName;
+  late final String? playerNumber;
+  late final String? playerCountry;
+  late final String? playerType;
+  late final String? playerAge;
+  late final String? playerMatchPlayed;
+  late final String? playerGoals;
+  late final String? playerYellowCards;
+  late final String? playerRedCards;
+  late final String? playerMinutes;
+  late final String? playerInjured;
+  late final String? playerSubstituteOut;
+  late final String? playerSubstitutesOnBench;
+  late final String? playerAssists;
+  late final String? playerIsCaptain;
+  late final String? playerShotsTotal;
+  late final String? playerGoalsConceded;
+  late final String? playerFoulsCommited;
+  late final String? playerTackles;
+  late final String? playerBlocks;
+  late final String? playerCrossesTotal;
+  late final String? playerInterceptions;
+  late final String? playerClearances;
+  late final String? playerDispossesed;
+  late final String? playerSaves;
+  late final String? playerInsideBoxSaves;
+  late final String? playerDuelsTotal;
+  late final String? playerDuelsWon;
+  late final String? playerDribbleAttempts;
+  late final String? playerDribbleSucc;
+  late final String? playerPenComm;
+  late final String? playerPenWon;
+  late final String? playerPenScored;
+  late final String? playerPenMissed;
+  late final String? playerPasses;
+  late final String? playerPassesAccuracy;
+  late final String? playerKeyPasses;
+  late final String? playerWoordworks;
+  late final String? playerRating;
+  late final String? teamName;
+  late final int? teamKey;
+  late final String? playerImage;
 
   Result.fromJson(Map<String, dynamic> json) {
     playerKey = json['player_key'];
