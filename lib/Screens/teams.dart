@@ -185,44 +185,31 @@ class _TeamsScoresScreen extends State<TeamsScoresScreen>
                                       children: [
                                         if (state is TeamsScoresTeams)
                                           Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 20),
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 10),
                                             child: TextFormField(
                                               controller: search,
                                               decoration: InputDecoration(
-                                                contentPadding:
-                                                    const EdgeInsets.symmetric(
-                                                  horizontal: 15,
-                                                ),
                                                 enabledBorder:
                                                     OutlineInputBorder(
                                                   borderRadius:
                                                       BorderRadius.circular(
                                                           25.0),
-                                                  borderSide: const BorderSide(
-                                                      color: Colors.black),
                                                 ),
                                                 filled: true,
-                                                fillColor: const Color.fromARGB(
-                                                    255, 247, 247, 247),
+                                                fillColor: Color.fromARGB(
+                                                    255, 255, 255, 255),
                                                 border: OutlineInputBorder(
                                                   borderRadius:
                                                       BorderRadius.circular(
                                                           25.0),
                                                 ),
                                                 hintText: 'Search',
-                                                hintStyle:
-                                                    GoogleFonts.robotoSlab(
-                                                  fontSize: 16,
-                                                  color: const Color.fromARGB(
-                                                      255, 197, 194, 194),
-                                                ),
                                                 suffixIcon: IconButton(
                                                   icon:
                                                       const Icon(Icons.search),
-                                                  color: const Color.fromARGB(
-                                                      255, 197, 194, 194),
-                                                  iconSize: 25,
+                                                  color: Color.fromRGBO(
+                                                      101, 158, 199, 1),
                                                   onPressed: () {
                                                     if (search.text != "") {
                                                       context

@@ -20,6 +20,10 @@ class Players extends StatelessWidget {
   double getResponsiveWidth(double percentage, BuildContext context) {
     return MediaQuery.of(context).size.width * percentage;
   }
+/*
+void shareText() {
+    Share.share("islam_hasib");
+  }*/
 
   void filterPlayers(String searchQuery) {
     filteredPlayers = players.where((player) {
@@ -98,6 +102,10 @@ class Players extends StatelessWidget {
       body: SafeArea(
         child: Stack(
           children: [
+            /*    Center(
+                child: Container(
+              child: IconButton(onPressed: shareText,icon: Icon(Icons.share))
+            )),*/
             Container(
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
