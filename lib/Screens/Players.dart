@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_fiers/Data/Cubits/GetPlayers/cubit/get_players_cubit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
+import 'package:share_plus/share_plus.dart';
 
 class Players extends StatelessWidget {
   final int id;
@@ -17,6 +18,10 @@ class Players extends StatelessWidget {
   double getResponsiveWidth(double percentage, BuildContext context) {
     return MediaQuery.of(context).size.width * percentage;
   }
+/*
+void shareText() {
+    Share.share("islam_hasib");
+  }*/
 
   void _showPlayerDetailsDialog(BuildContext context, dynamic player) {
     showDialog(
@@ -85,6 +90,10 @@ class Players extends StatelessWidget {
       body: SafeArea(
         child: Stack(
           children: [
+            /*    Center(
+                child: Container(
+              child: IconButton(onPressed: shareText,icon: Icon(Icons.share))
+            )),*/
             Container(
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
