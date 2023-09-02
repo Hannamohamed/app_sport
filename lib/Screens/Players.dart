@@ -1,7 +1,8 @@
-import 'dart:ffi';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_fiers/Data/Cubits/GetPlayers/cubit/get_players_cubit.dart';
+import 'package:flutter_fiers/Data/Widgets/drawer.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 
@@ -9,6 +10,8 @@ class Players extends StatelessWidget {
   final int id;
   Players({super.key, required this.id});
   final TextEditingController _searchController = TextEditingController();
+  List<dynamic> players = [];
+  List<dynamic> filteredPlayers = [];
 
   double getResponsiveHeight(double percentage, BuildContext context) {
     return MediaQuery.of(context).size.height * percentage;
@@ -16,6 +19,15 @@ class Players extends StatelessWidget {
 
   double getResponsiveWidth(double percentage, BuildContext context) {
     return MediaQuery.of(context).size.width * percentage;
+  }
+
+  void filterPlayers(String searchQuery) {
+    filteredPlayers = players.where((player) {
+      final playerName = player.playerName.toLowerCase();
+      final query = searchQuery.toLowerCase();
+      return playerName.contains(query);
+    }).toList();
+    print("Filtered Players: $filteredPlayers");
   }
 
   void _showPlayerDetailsDialog(BuildContext context, dynamic player) {
@@ -36,19 +48,19 @@ class Players extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 5),
-                Text(player.playerName ?? "Unknown",
+                Text(player.playerName ?? " ",
                     style: GoogleFonts.inter(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
                         color: Color(0xff41627E))),
-                Text("Number: ${player.playerNumber ?? 'N/A'}"),
-                Text("Country: ${player.playerCountry ?? 'N/A'}"),
-                Text("Position: ${player.playerType ?? 'N/A'}"),
-                Text("Age: ${player.playerAge ?? 'N/A'}"),
-                Text("Yellow Cards: ${player.playerYellowCards ?? '0'}"),
-                Text("Red Cards: ${player.playerRedCards ?? '0'}"),
-                Text("Goals: ${player.playerGoals ?? '0'}"),
-                Text("Assists: ${player.playerAssists ?? '0'}"),
+                Text("Number: ${player.playerNumber ?? ""}"),
+                Text("Country: ${player.playerCountry ?? ""}"),
+                Text("Position: ${player.playerType ?? ""}"),
+                Text("Age: ${player.playerAge ?? ""}"),
+                Text("Yellow Cards: ${player.playerYellowCards ?? ""}"),
+                Text("Red Cards: ${player.playerRedCards ?? ""}"),
+                Text("Goals: ${player.playerGoals ?? ""}"),
+                Text("Assists: ${player.playerAssists ?? ""}"),
               ],
             ),
           ),
@@ -82,6 +94,7 @@ class Players extends StatelessWidget {
 
   Widget buildPortraitLayout(BuildContext context) {
     return Scaffold(
+      drawer: CustomDrawer(),
       body: SafeArea(
         child: Stack(
           children: [
@@ -111,13 +124,27 @@ class Players extends StatelessWidget {
                           BorderRadius.vertical(bottom: Radius.circular(15)),
                       color: Color.fromRGBO(101, 158, 199, 1),
                     ),
-                    child: Center(
-                      child: Text("Select Player",
-                          style: GoogleFonts.robotoSlab(
-                              fontSize: getResponsiveHeight(
-                                  0.03, context), // Responsive font size
-                              color: Colors.white,
-                              fontWeight: FontWeight.w600)),
+                    child: Row(
+                      children: [
+                        Builder(
+                          builder: (BuildContext context) {
+                            return IconButton(
+                              icon: Icon(Icons.menu),
+                              onPressed: () {
+                                Scaffold.of(context).openDrawer();
+                              },
+                            );
+                          },
+                        ),
+                        Center(
+                          child: Text("Select Player",
+                              style: GoogleFonts.robotoSlab(
+                                  fontSize: getResponsiveHeight(
+                                      0.03, context), // Responsive font size
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600)),
+                        ),
+                      ],
                     ),
                   ),
                   SizedBox(
@@ -125,21 +152,23 @@ class Players extends StatelessWidget {
                   ),
                   Padding(
                     padding: EdgeInsets.all(getResponsiveWidth(0.025, context)),
-                    child: TextField(
+                    child: TextFormField(
                       controller: _searchController,
                       decoration: InputDecoration(
                         hintText: 'Search player name...',
-                        suffixIcon: Icon(
-                          Icons.search,
-                          color: Color.fromRGBO(101, 158, 199, 1),
+                        suffixIcon: IconButton(
+                          icon: const Icon(
+                            Icons.search,
+                            color: Color.fromRGBO(101, 158, 199, 1),
+                          ),
+                          onPressed: () {
+                            filterPlayers(_searchController.text);
+                          },
                         ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(25.0),
                         ),
                       ),
-                      onChanged: (searchQuery) {
-                        // Here you can filter your player list based on the searchQuery
-                      },
                     ),
                   ),
 
@@ -153,22 +182,17 @@ class Players extends StatelessWidget {
                           child: CircularProgressIndicator(),
                         );
                       } else if (state is GetPlayersSuccess) {
-                        // final List<dynamic> filteredPlayers =
-                        //     state.response.result.where((player) {
-                        //   final playerName = player.playerName.toLowerCase();
-                        //   final searchQuery =
-                        //       _searchController.text.toLowerCase();
-                        //   return playerName.contains(searchQuery);
-                        // }).toList();
+                        players = state.response.result;
+                        final displayedPlayers = _searchController.text.isEmpty
+                            ? players
+                            : filteredPlayers;
                         return Column(
                           children: [
-                            for (int i = 0;
-                                i < state.response.result.length;
-                                i++)
+                            for (int i = 0; i < displayedPlayers.length; i++)
                               GestureDetector(
                                 onTap: () {
                                   _showPlayerDetailsDialog(
-                                      context, state.response.result[i]);
+                                      context, displayedPlayers[i]);
                                 },
                                 child: Padding(
                                   padding: EdgeInsets.all(getResponsiveWidth(
@@ -177,13 +201,13 @@ class Players extends StatelessWidget {
                                     width: getResponsiveWidth(
                                         0.9, context), // Responsive width
                                     height: getResponsiveHeight(
-                                        0.2, context), // Responsive height
+                                        0.15, context), // Responsive height
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(
                                           getResponsiveWidth(0.3,
                                               context)), // Responsive radius
-                                      color:
-                                          Color.fromRGBO(229, 236, 242, 0.70),
+                                      color: const Color.fromRGBO(
+                                          229, 236, 242, 0.70),
                                     ),
                                     child: Padding(
                                       padding: EdgeInsets.all(
@@ -197,8 +221,7 @@ class Players extends StatelessWidget {
                                             radius: getResponsiveWidth(0.1,
                                                 context), // Responsive radius
                                             backgroundImage: NetworkImage(
-                                              state.response.result[i]
-                                                      .playerImage ??
+                                              displayedPlayers[i].playerImage ??
                                                   "https://st3.depositphotos.com/3581215/18899/v/450/depositphotos_188994514-stock-illustration-vector-illustration-male-silhouette-profile.jpg",
                                             ),
                                           ),
@@ -211,7 +234,7 @@ class Players extends StatelessWidget {
                                                 MainAxisAlignment.center,
                                             children: [
                                               Text(
-                                                state.response.result[i]
+                                                displayedPlayers[i]
                                                         .playerName ??
                                                     "Unknown",
                                                 style: GoogleFonts.robotoSlab(
@@ -219,17 +242,19 @@ class Players extends StatelessWidget {
                                                         0.02,
                                                         context), // Responsive font size
                                                     fontWeight: FontWeight.w600,
-                                                    color: Color(0xff41627E)),
+                                                    color: const Color(
+                                                        0xff41627E)),
                                                 softWrap: true,
                                               ),
                                               Text(
-                                                'Position: ${state.response.result[i].playerType ?? "Unknown"}',
+                                                'Position: ${displayedPlayers[i].playerType ?? "Unknown"}',
                                                 style: GoogleFonts.robotoSlab(
                                                     fontSize: getResponsiveHeight(
                                                         0.02,
                                                         context), // Responsive font size
                                                     fontWeight: FontWeight.w600,
-                                                    color: Color(0xff41627E)),
+                                                    color: const Color(
+                                                        0xff41627E)),
                                                 softWrap: true,
                                               ),
                                             ],
@@ -254,7 +279,7 @@ class Players extends StatelessWidget {
                             Text(
                               'An error has occurred',
                               style: GoogleFonts.inter(
-                                  color: Color.fromRGBO(65, 98, 126, 1),
+                                  color: const Color.fromRGBO(65, 98, 126, 1),
                                   fontWeight: FontWeight.w600),
                             ),
                           ],
@@ -273,6 +298,7 @@ class Players extends StatelessWidget {
 
   Widget buildLandscapeLayout(BuildContext context) {
     return Scaffold(
+      drawer: CustomDrawer(),
       body: SafeArea(
         child: Stack(
           children: [
@@ -297,18 +323,32 @@ class Players extends StatelessWidget {
                     width: double.infinity,
                     height: getResponsiveHeight(
                         0.2, context), // Responsive app bar height
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       borderRadius:
                           BorderRadius.vertical(bottom: Radius.circular(15)),
                       color: Color.fromRGBO(101, 158, 199, 1),
                     ),
-                    child: Center(
-                      child: Text("Select Player",
-                          style: GoogleFonts.robotoSlab(
-                              fontSize: getResponsiveHeight(
-                                  0.05, context), // Responsive font size
-                              color: Colors.white,
-                              fontWeight: FontWeight.w600)),
+                    child: Row(
+                      children: [
+                        Builder(
+                          builder: (BuildContext context) {
+                            return IconButton(
+                              icon: Icon(Icons.menu),
+                              onPressed: () {
+                                Scaffold.of(context).openDrawer();
+                              },
+                            );
+                          },
+                        ),
+                        Center(
+                          child: Text("Select Player",
+                              style: GoogleFonts.robotoSlab(
+                                  fontSize: getResponsiveHeight(
+                                      0.05, context), // Responsive font size
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600)),
+                        ),
+                      ],
                     ),
                   ),
                   SizedBox(
@@ -316,21 +356,23 @@ class Players extends StatelessWidget {
                   ),
                   Padding(
                     padding: EdgeInsets.all(getResponsiveWidth(0.025, context)),
-                    child: TextFormField(
+                    child: TextField(
                       controller: _searchController,
                       decoration: InputDecoration(
                         hintText: 'Search player name...',
-                        suffixIcon: Icon(
-                          Icons.search,
-                          color: Color.fromRGBO(101, 158, 199, 1),
+                        suffixIcon: IconButton(
+                          icon: const Icon(
+                            Icons.search,
+                            color: Color.fromRGBO(101, 158, 199, 1),
+                          ),
+                          onPressed: () {
+                            filterPlayers(_searchController.text);
+                          },
                         ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(25.0),
                         ),
                       ),
-                      onChanged: (searchQuery) {
-                        // Here you can filter your player list based on the searchQuery
-                      },
                     ),
                   ),
 
@@ -344,13 +386,10 @@ class Players extends StatelessWidget {
                           child: CircularProgressIndicator(),
                         );
                       } else if (state is GetPlayersSuccess) {
-                        // final List<dynamic> filteredPlayers =
-                        //     state.response.result.where((player) {
-                        //   final playerName = player.playerName.toLowerCase();
-                        //   final searchQuery =
-                        //       _searchController.text.toLowerCase();
-                        //   return playerName.contains(searchQuery);
-                        // }).toList();
+                        players = state.response.result;
+                        final displayedPlayers = _searchController.text.isEmpty
+                            ? players
+                            : filteredPlayers;
                         return GridView.builder(
                           gridDelegate:
                               SliverGridDelegateWithFixedCrossAxisCount(
@@ -358,14 +397,14 @@ class Players extends StatelessWidget {
                             childAspectRatio: getResponsiveWidth(0.8, context) /
                                 getResponsiveHeight(0.35, context),
                           ),
-                          itemCount: state.response.result.length,
+                          itemCount: displayedPlayers.length,
                           shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
+                          physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (context, index) {
                             return GestureDetector(
                               onTap: () {
                                 _showPlayerDetailsDialog(
-                                    context, state.response.result[index]);
+                                    context, displayedPlayers[index]);
                               },
                               child: Padding(
                                 padding: EdgeInsets.all(getResponsiveWidth(
@@ -379,7 +418,8 @@ class Players extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(
                                         getResponsiveWidth(
                                             0.5, context)), // Responsive radius
-                                    color: Color.fromRGBO(229, 236, 242, 0.70),
+                                    color: const Color.fromRGBO(
+                                        229, 236, 242, 0.70),
                                   ),
                                   child: Padding(
                                     padding: EdgeInsets.all(getResponsiveWidth(
@@ -388,13 +428,24 @@ class Players extends StatelessWidget {
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
                                       children: [
-                                        CircleAvatar(
-                                          radius: 50, // Responsive radius
-                                          backgroundImage: NetworkImage(
-                                            state.response.result[index]
-                                                    .playerImage ??
-                                                "https://st3.depositphotos.com/3581215/18899/v/450/depositphotos_188994514-stock-illustration-vector-illustration-male-silhouette-profile.jpg",
-                                          ),
+                                        // CircleAvatar(
+                                        //   radius: getResponsiveWidth(0.1,
+                                        //       context), // Responsive radius
+                                        //   backgroundImage: NetworkImage(
+                                        //     state.response.result[index]
+                                        //             .playerImage ??
+                                        //         "https://st3.depositphotos.com/3581215/18899/v/450/depositphotos_188994514-stock-illustration-vector-illustration-male-silhouette-profile.jpg",
+                                        //   ),
+                                        // ),
+                                        CachedNetworkImage(
+                                          imageUrl: state.response.result[index]
+                                              .playerImage!,
+                                          errorWidget: (context, url, error) =>
+                                              Icon(Icons.person,
+                                                  size: getResponsiveWidth(
+                                                    0.1,
+                                                    context,
+                                                  )),
                                         ),
                                         SizedBox(
                                           width: getResponsiveWidth(0.005,
@@ -413,7 +464,8 @@ class Players extends StatelessWidget {
                                                       0.05,
                                                       context), // Responsive font size
                                                   fontWeight: FontWeight.w500,
-                                                  color: Color(0xff41627E)),
+                                                  color:
+                                                      const Color(0xff41627E)),
                                               softWrap: true,
                                             ),
                                             Text(
@@ -423,7 +475,8 @@ class Players extends StatelessWidget {
                                                       0.05,
                                                       context), // Responsive font size
                                                   fontWeight: FontWeight.w500,
-                                                  color: Color(0xff41627E)),
+                                                  color:
+                                                      const Color(0xff41627E)),
                                               softWrap: true,
                                             ),
                                           ],
@@ -451,7 +504,7 @@ class Players extends StatelessWidget {
                               child: Text(
                                 'An error has occurred',
                                 style: GoogleFonts.inter(
-                                    color: Color.fromRGBO(65, 98, 126, 1),
+                                    color: const Color.fromRGBO(65, 98, 126, 1),
                                     fontWeight: FontWeight.w600),
                               ),
                             ),

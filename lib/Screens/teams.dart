@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_fiers/Data/Cubits/teams_status_cubit/teams_scores_cubit.dart';
+import 'package:flutter_fiers/Data/Widgets/drawer.dart';
 import 'package:flutter_fiers/Screens/Players.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -62,6 +63,7 @@ class _TeamsScoresScreen extends State<TeamsScoresScreen>
       builder: (context, state) {
         return SafeArea(
           child: Scaffold(
+            drawer: CustomDrawer(),
             // backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
             appBar: AppBar(
               automaticallyImplyLeading: false,
@@ -71,9 +73,19 @@ class _TeamsScoresScreen extends State<TeamsScoresScreen>
                 "Select Team",
                 style: GoogleFonts.robotoSlab(
                     color: Colors.white,
-                    fontSize: 20,
+                    fontSize: 22.sp,
                     fontWeight: FontWeight.w600),
               )),
+              leading: Builder(
+                builder: (BuildContext context) {
+                  return IconButton(
+                    icon: Icon(Icons.menu),
+                    onPressed: () {
+                      Scaffold.of(context).openDrawer();
+                    },
+                  );
+                },
+              ),
               bottom: PreferredSize(
                 preferredSize: const Size.fromHeight(kToolbarHeight),
                 child: Container(
@@ -91,7 +103,7 @@ class _TeamsScoresScreen extends State<TeamsScoresScreen>
                           color: (state is TeamsScoresTeams)
                               ? Colors.white
                               : const Color.fromARGB(255, 240, 240, 240),
-                          fontSize: 18.sp,
+                          fontSize: 20.sp,
                           fontWeight: (state is TeamsScoresTeams)
                               ? FontWeight.w600
                               : FontWeight.normal,

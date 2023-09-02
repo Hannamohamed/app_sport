@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_fiers/Data/Cubits/cubit/leagues_cubit.dart';
+import 'package:flutter_fiers/Data/Widgets/drawer.dart';
 import 'package:flutter_fiers/Screens/teams.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
@@ -33,6 +34,7 @@ class LeagueScreen extends StatelessWidget {
 
   Widget buildPortraitLayout(BuildContext context) {
     return Scaffold(
+      drawer: CustomDrawer(),
       body: SafeArea(
         child: Stack(
           children: [
@@ -57,18 +59,32 @@ class LeagueScreen extends StatelessWidget {
                     width: double.infinity,
                     height: getResponsiveHeight(
                         0.1, context), // Responsive app bar height
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       borderRadius:
                           BorderRadius.vertical(bottom: Radius.circular(15)),
                       color: Color.fromRGBO(101, 158, 199, 1),
                     ),
-                    child: Center(
-                      child: Text("Select League",
-                          style: GoogleFonts.robotoSlab(
-                              fontSize: getResponsiveHeight(
-                                  0.03, context), // Responsive font size
-                              color: Colors.white,
-                              fontWeight: FontWeight.w600)),
+                    child: Row(
+                      children: [
+                        Builder(
+                          builder: (BuildContext context) {
+                            return IconButton(
+                              icon: Icon(Icons.menu),
+                              onPressed: () {
+                                Scaffold.of(context).openDrawer();
+                              },
+                            );
+                          },
+                        ),
+                        Center(
+                          child: Text("Select League",
+                              style: GoogleFonts.robotoSlab(
+                                  fontSize: getResponsiveHeight(
+                                      0.03, context), // Responsive font size
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600)),
+                        ),
+                      ],
                     ),
                   ),
                   SizedBox(
@@ -113,8 +129,8 @@ class LeagueScreen extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(
                                           getResponsiveWidth(0.3,
                                               context)), // Responsive radius
-                                      color:
-                                          Color.fromRGBO(229, 236, 242, 0.70),
+                                      color: const Color.fromRGBO(
+                                          229, 236, 242, 0.70),
                                     ),
                                     child: Padding(
                                       padding: EdgeInsets.all(
@@ -146,7 +162,7 @@ class LeagueScreen extends StatelessWidget {
                                                     0.02,
                                                     context), // Responsive font size
                                                 fontWeight: FontWeight.w600,
-                                                color: Color(0xff41627E)),
+                                                color: const Color(0xff41627E)),
                                             softWrap: true,
                                           ),
                                         ],
@@ -172,7 +188,7 @@ class LeagueScreen extends StatelessWidget {
                               child: Text(
                                 'An error has occurred',
                                 style: GoogleFonts.robotoSlab(
-                                    color: Color.fromRGBO(65, 98, 126, 1),
+                                    color: const Color.fromRGBO(65, 98, 126, 1),
                                     fontWeight: FontWeight.w600),
                               ),
                             ),
@@ -192,6 +208,7 @@ class LeagueScreen extends StatelessWidget {
 
   Widget buildLandscapeLayout(BuildContext context) {
     return Scaffold(
+      drawer: CustomDrawer(),
       body: SafeArea(
         child: Stack(
           children: [
@@ -216,18 +233,32 @@ class LeagueScreen extends StatelessWidget {
                     width: double.infinity,
                     height: getResponsiveHeight(
                         0.2, context), // Responsive app bar height
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       borderRadius:
                           BorderRadius.vertical(bottom: Radius.circular(15)),
                       color: Color.fromRGBO(101, 158, 199, 1),
                     ),
-                    child: Center(
-                      child: Text("Select League",
-                          style: GoogleFonts.robotoSlab(
-                              fontSize: getResponsiveHeight(
-                                  0.05, context), // Responsive font size
-                              color: Colors.white,
-                              fontWeight: FontWeight.w600)),
+                    child: Row(
+                      children: [
+                        Builder(
+                          builder: (BuildContext context) {
+                            return IconButton(
+                              icon: Icon(Icons.menu),
+                              onPressed: () {
+                                Scaffold.of(context).openDrawer();
+                              },
+                            );
+                          },
+                        ),
+                        Center(
+                          child: Text("Select League",
+                              style: GoogleFonts.robotoSlab(
+                                  fontSize: getResponsiveHeight(
+                                      0.05, context), // Responsive font size
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600)),
+                        ),
+                      ],
                     ),
                   ),
                   SizedBox(
@@ -249,7 +280,7 @@ class LeagueScreen extends StatelessWidget {
                           ),
                           itemCount: state.response.result.length,
                           shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
+                          physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (context, index) {
                             return Padding(
                               padding: EdgeInsets.all(getResponsiveWidth(
@@ -278,7 +309,8 @@ class LeagueScreen extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(
                                         getResponsiveWidth(
                                             0.5, context)), // Responsive radius
-                                    color: Color.fromRGBO(229, 236, 242, 0.70),
+                                    color: const Color.fromRGBO(
+                                        229, 236, 242, 0.70),
                                   ),
                                   child: Padding(
                                     padding: EdgeInsets.all(getResponsiveWidth(
@@ -308,7 +340,7 @@ class LeagueScreen extends StatelessWidget {
                                                   0.05,
                                                   context), // Responsive font size
                                               fontWeight: FontWeight.w500,
-                                              color: Color(0xff41627E)),
+                                              color: const Color(0xff41627E)),
                                           softWrap: true,
                                         ),
                                       ],
@@ -334,7 +366,7 @@ class LeagueScreen extends StatelessWidget {
                               child: Text(
                                 'An error has occurred',
                                 style: GoogleFonts.robotoSlab(
-                                    color: Color.fromRGBO(65, 98, 126, 1),
+                                    color: const Color.fromRGBO(65, 98, 126, 1),
                                     fontWeight: FontWeight.w600),
                               ),
                             ),

@@ -6,20 +6,19 @@ import 'package:flutter_fiers/Data/Cubits/GetPlayers/cubit/get_players_cubit.dar
 import 'package:flutter_fiers/Data/Cubits/cubit/countries_cubit.dart';
 import 'package:flutter_fiers/Data/Cubits/cubit/leagues_cubit.dart';
 import 'package:flutter_fiers/Data/Cubits/teams_status_cubit/teams_scores_cubit.dart';
-import 'package:flutter_fiers/Screens/Players.dart';
-import 'package:flutter_fiers/Screens/countries.dart';
-import 'package:flutter_fiers/Screens/home.dart';
-import 'package:flutter_fiers/Screens/onboarding_screen.dart';
+import 'package:flutter_fiers/Data/auth_screen.dart';
+
+import 'package:flutter_fiers/Screens/loginscreen.dart';
+
 import 'package:flutter_fiers/Screens/splashscreen.dart';
-import 'package:flutter_fiers/Screens/teams.dart';
-import 'package:flutter_fiers/Serveses/fcm.dart';
+
+import 'package:flutter_fiers/Services/fcm.dart';
 import 'package:flutter_fiers/firebase_options.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'Screens/league.dart';
 
 @pragma('vm entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.android);
   NotificationServices().showNotification(message);
 }
 
@@ -83,10 +82,10 @@ class _MyAppState extends State<MyApp> {
             // This works for code too, not just values: Most code changes can be
             // tested with just a hot reload.
             colorScheme: ColorScheme.fromSeed(
-                seedColor: Color.fromRGBO(101, 158, 199, 1)),
+                seedColor: const Color.fromRGBO(101, 158, 199, 1)),
             useMaterial3: true,
           ),
-          home: splashscreen(),
+          home: Auth(),
         ),
       ),
     );

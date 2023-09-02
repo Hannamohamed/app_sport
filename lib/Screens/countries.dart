@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_fiers/Data/Cubits/cubit/countries_cubit.dart';
+import 'package:flutter_fiers/Data/Widgets/drawer.dart';
 import 'package:flutter_fiers/Screens/league.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CountriesScreen extends StatelessWidget {
-  CountriesScreen({super.key});
+  const CountriesScreen({super.key});
 
   double getResponsiveHeight(double percentage, BuildContext context) {
     return MediaQuery.of(context).size.height * percentage;
@@ -19,6 +20,7 @@ class CountriesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     context.read<CountriesCubit>().getCountries();
     return Scaffold(
+      drawer: CustomDrawer(),
       body: SafeArea(
         child: Stack(
           children: [
@@ -43,18 +45,32 @@ class CountriesScreen extends StatelessWidget {
                   width: double.infinity,
                   height: getResponsiveHeight(
                       0.1, context), // Responsive app bar height
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     borderRadius:
                         BorderRadius.vertical(bottom: Radius.circular(15)),
                     color: Color.fromRGBO(101, 158, 199, 1),
                   ),
-                  child: Center(
-                    child: Text("Select Country",
-                        style: GoogleFonts.robotoSlab(
-                            fontSize: getResponsiveHeight(
-                                0.03, context), // Responsive font size
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600)),
+                  child: Row(
+                    children: [
+                      Builder(
+                        builder: (BuildContext context) {
+                          return IconButton(
+                            icon: Icon(Icons.menu),
+                            onPressed: () {
+                              Scaffold.of(context).openDrawer();
+                            },
+                          );
+                        },
+                      ),
+                      Center(
+                        child: Text("Select Country",
+                            style: GoogleFonts.robotoSlab(
+                                fontSize: getResponsiveHeight(
+                                    0.03, context), // Responsive font size
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600)),
+                      ),
+                    ],
                   ),
                 ),
                 SizedBox(
@@ -63,7 +79,7 @@ class CountriesScreen extends StatelessWidget {
                 BlocBuilder<CountriesCubit, CountriesState>(
                     builder: (context, state) {
                   if (state is CountriesLoading) {
-                    return Center(
+                    return const Center(
                       child: CircularProgressIndicator(),
                     );
                   } else if (state is CountriesSuccess) {
@@ -103,7 +119,7 @@ class CountriesScreen extends StatelessWidget {
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(
                                         getResponsiveWidth(0.15, context)),
-                                    color: Color(0xffe5ecf2),
+                                    color: const Color(0xffe5ecf2),
                                   ),
                                   child: Stack(children: [
                                     Column(
@@ -168,7 +184,8 @@ class CountriesScreen extends StatelessWidget {
                                                           Orientation.portrait)
                                                       ? 20
                                                       : 18,
-                                                  color: Color(0xff41627E),
+                                                  color:
+                                                      const Color(0xff41627E),
                                                   fontWeight: FontWeight.w600,
                                                 ),
                                                 textAlign: TextAlign.center,
@@ -187,7 +204,7 @@ class CountriesScreen extends StatelessWidget {
                       ),
                     );
                   } else {
-                    return Center(
+                    return const Center(
                       child: Text("Something went wrong"),
                     );
                   }

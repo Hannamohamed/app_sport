@@ -51,6 +51,8 @@ dependencies:
   introduction_screen: ^3.1.11
   shared_preferences: ^2.2.1
   flutter_local_notifications: ^15.1.1
+  google_sign_in: ^6.1.5
+  firebase_auth: ^4.9.0
 
 
 

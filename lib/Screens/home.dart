@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_fiers/Data/Widgets/drawer.dart';
 import 'package:flutter_fiers/Screens/countries.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -35,7 +36,7 @@ class HomeScreen extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute<void>(
-              builder: (BuildContext context) => CountriesScreen(),
+              builder: (BuildContext context) => const CountriesScreen(),
             ),
           );
         } else {
@@ -45,11 +46,11 @@ class HomeScreen extends StatelessWidget {
               return AlertDialog(
                 title: Text('Wait!',
                     style: GoogleFonts.robotoSlab(
-                        color: Color.fromRGBO(65, 98, 126, 1),
+                        color: const Color.fromRGBO(65, 98, 126, 1),
                         fontWeight: FontWeight.w600)),
                 content: Text('Coming Soon',
                     style: GoogleFonts.robotoSlab(
-                        color: Color.fromRGBO(65, 98, 126, 1),
+                        color: const Color.fromRGBO(65, 98, 126, 1),
                         fontWeight: FontWeight.w600)),
                 actions: [
                   ElevatedButton(
@@ -58,7 +59,7 @@ class HomeScreen extends StatelessWidget {
                     },
                     child: Text('Ok',
                         style: GoogleFonts.robotoSlab(
-                            color: Color.fromRGBO(65, 98, 126, 1),
+                            color: const Color.fromRGBO(65, 98, 126, 1),
                             fontWeight: FontWeight.w600)),
                   ),
                 ],
@@ -77,7 +78,7 @@ class HomeScreen extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(getResponsiveWidth(
                 widthRatio / 2, context)), // Responsive radius
-            color: Color.fromRGBO(229, 236, 242, 0.70),
+            color: const Color.fromRGBO(229, 236, 242, 0.70),
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -93,7 +94,7 @@ class HomeScreen extends StatelessWidget {
               Text(
                 names[index],
                 style: GoogleFonts.robotoSlab(
-                    color: Color.fromRGBO(65, 98, 126, 1),
+                    color: const Color.fromRGBO(65, 98, 126, 1),
                     fontSize: getResponsiveHeight(
                         0.03, context), // Responsive font size
                     fontWeight: FontWeight.w600),
@@ -108,6 +109,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: CustomDrawer(),
       body: SafeArea(
         child: Stack(
           children: [
@@ -130,20 +132,35 @@ class HomeScreen extends StatelessWidget {
                   width: double.infinity,
                   height: getResponsiveHeight(
                       0.1, context), // Responsive app bar height
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     borderRadius:
                         BorderRadius.vertical(bottom: Radius.circular(15)),
                     color: Color.fromRGBO(101, 158, 199, 1),
                   ),
-                  child: Center(
-                    child: Text(
-                      "Select your favorite sport",
-                      style: GoogleFonts.robotoSlab(
-                          fontSize: getResponsiveHeight(
-                              0.03, context), // Responsive font size
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600),
-                    ),
+                  child: Row(
+                    // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Builder(
+                        builder: (BuildContext context) {
+                          return IconButton(
+                            icon: Icon(Icons.menu),
+                            onPressed: () {
+                              Scaffold.of(context).openDrawer();
+                            },
+                          );
+                        },
+                      ),
+                      Center(
+                        child: Text(
+                          "Select your favorite sport",
+                          style: GoogleFonts.robotoSlab(
+                              fontSize: getResponsiveHeight(
+                                  0.03, context), // Responsive font size
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 SizedBox(height: getResponsiveHeight(0.02, context)),
