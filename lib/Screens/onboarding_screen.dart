@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_fiers/Screens/auth_screen.dart';
 import 'package:flutter_fiers/Screens/contaniers_onboarding.dart';
 
 import 'package:flutter_fiers/Screens/home.dart';
@@ -49,7 +50,7 @@ class _PageSwapperWidgetState extends State<PageSwapperWidget> {
       if (hasSeen) {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => HomeScreen()),
+          MaterialPageRoute(builder: (context) => Auth()),
         );
       } else {
         // Auto-play pages every 3 seconds
@@ -119,8 +120,7 @@ class _PageSwapperWidgetState extends State<PageSwapperWidget> {
                           markOnboardingAsSeen();
                           Navigator.pushReplacement(
                             context,
-                            MaterialPageRoute(
-                                builder: (context) => HomeScreen()),
+                            MaterialPageRoute(builder: (context) => Auth()),
                           );
                         });
                       },
@@ -189,8 +189,7 @@ class _PageSwapperWidgetState extends State<PageSwapperWidget> {
                           markOnboardingAsSeen();
                           Navigator.pushReplacement(
                             context,
-                            MaterialPageRoute(
-                                builder: (context) => HomeScreen()),
+                            MaterialPageRoute(builder: (context) => Auth()),
                           );
                         });
                       },

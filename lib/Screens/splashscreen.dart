@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_fiers/Screens/auth_screen.dart';
 import 'package:flutter_fiers/Screens/home.dart';
 import 'package:flutter_fiers/Screens/onboarding_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -36,7 +37,7 @@ class _splashscreenState extends State<splashscreen>
         if (hasSeen) {
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => HomeScreen()),
+            MaterialPageRoute(builder: (context) => Auth()),
           );
         } else {
           Navigator.pushReplacement(

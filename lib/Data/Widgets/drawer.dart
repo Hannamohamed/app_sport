@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_fiers/Services/auth_ser.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CustomDrawer extends StatelessWidget {
@@ -26,20 +27,41 @@ class CustomDrawer extends StatelessWidget {
             child: Center(
               child: Column(
                 children: [
-                  Text(
-                    'Your Account',
-                    style: GoogleFonts.robotoSlab(
-                      color: Colors.white,
-                      fontSize: getResponsiveHeight(0.03, context),
-                      fontWeight: FontWeight.bold,
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Your Account',
+                        style: GoogleFonts.robotoSlab(
+                          color: Colors.white,
+                          fontSize: getResponsiveHeight(0.03, context),
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
                   ),
                   SizedBox(
                     height: getResponsiveHeight(0.01, context),
                   ),
-                  CircleAvatar(
-                    radius: 40,
-                    backgroundImage: NetworkImage(user.photoURL!),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      CircleAvatar(
+                        radius: 40,
+                        backgroundImage: NetworkImage(user.photoURL!),
+                      ),
+                      SizedBox(
+                        width: getResponsiveHeight(0.01, context),
+                      ),
+                      Text(
+                        'UserName:\n' + user.displayName!,
+                        style: GoogleFonts.robotoSlab(
+                          color: Colors.grey[800],
+                          fontSize: getResponsiveHeight(0.02, context),
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -74,51 +96,44 @@ class CustomDrawer extends StatelessWidget {
             padding: EdgeInsets.all(getResponsiveWidth(0.03, context)),
             child: Column(
               children: [
+                SizedBox(
+                  height: getResponsiveHeight(0.05, context),
+                ),
                 Row(
                   children: [
                     Text(
-                      'Loged in as:   ' + user.email!,
+                      'Logged in as:\n' + user.email!,
                       style: GoogleFonts.robotoSlab(
                         color: Colors.grey[700],
-                        fontSize: getResponsiveHeight(0.018, context),
+                        fontSize: getResponsiveHeight(0.02, context),
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                   ],
                 ),
                 SizedBox(
-                  height: getResponsiveHeight(0.01, context),
+                  height: getResponsiveHeight(0.5, context),
                 ),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Text(
-                      'UserName:   ' + user.displayName!,
-                      style: GoogleFonts.robotoSlab(
-                        color: Colors.grey[700],
-                        fontSize: getResponsiveHeight(0.018, context),
-                        fontWeight: FontWeight.bold,
+                    ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                          Color.fromRGBO(101, 158, 199, 1),
+                        ),
+                      ),
+                      onPressed: () {
+                        FirebaseAuth.instance.signOut();
+                      },
+                      child: const Text(
+                        "LogOut",
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ],
-                ),
-                SizedBox(
-                  height: getResponsiveHeight(0.01, context),
-                ),
-                ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(
-                      Color.fromRGBO(101, 158, 199, 1),
-                    ),
-                  ),
-                  onPressed: () {
-                    FirebaseAuth.instance.signOut();
-                  },
-                  child: const Text(
-                    "LogOut",
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
-                  ),
                 ),
               ],
             ),
