@@ -1,9 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_fiers/Screens/home.dart';
 import 'package:flutter_fiers/Screens/login_or_register.dart';
-import 'package:flutter_fiers/Screens/countries.dart';
-
-import 'package:flutter_fiers/Screens/loginscreen.dart';
 
 class Auth extends StatelessWidget {
   const Auth({super.key});
@@ -16,7 +14,7 @@ class Auth extends StatelessWidget {
         builder: (context, snapshot) {
           //User is Logged in
           if (snapshot.hasData) {
-            return CountriesScreen();
+            return HomeScreen();
           }
 
           //User is not Logged in

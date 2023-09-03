@@ -6,7 +6,7 @@ import 'package:flutter_fiers/Data/Cubits/GetPlayers/cubit/get_players_cubit.dar
 import 'package:flutter_fiers/Data/Cubits/cubit/countries_cubit.dart';
 import 'package:flutter_fiers/Data/Cubits/cubit/leagues_cubit.dart';
 import 'package:flutter_fiers/Data/Cubits/teams_status_cubit/teams_scores_cubit.dart';
-import 'package:flutter_fiers/Data/auth_screen.dart';
+import 'package:flutter_fiers/Screens/auth_screen.dart';
 
 import 'package:flutter_fiers/Screens/loginscreen.dart';
 

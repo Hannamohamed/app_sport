@@ -23,12 +23,25 @@ class CustomDrawer extends StatelessWidget {
             decoration: BoxDecoration(
               color: Color.fromRGBO(101, 158, 199, 1),
             ),
-            child: Text(
-              'Drawer Header',
-              style: GoogleFonts.robotoSlab(
-                color: Colors.white,
-                fontSize: getResponsiveHeight(0.03, context),
-                fontWeight: FontWeight.bold,
+            child: Center(
+              child: Column(
+                children: [
+                  Text(
+                    'Your Account',
+                    style: GoogleFonts.robotoSlab(
+                      color: Colors.white,
+                      fontSize: getResponsiveHeight(0.03, context),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(
+                    height: getResponsiveHeight(0.01, context),
+                  ),
+                  CircleAvatar(
+                    radius: 40,
+                    backgroundImage: NetworkImage(user.photoURL!),
+                  ),
+                ],
               ),
             ),
           ),
@@ -58,7 +71,7 @@ class CustomDrawer extends StatelessWidget {
           // ),
 
           Padding(
-            padding: const EdgeInsets.all(2.0),
+            padding: EdgeInsets.all(getResponsiveWidth(0.03, context)),
             child: Column(
               children: [
                 Row(
@@ -67,7 +80,22 @@ class CustomDrawer extends StatelessWidget {
                       'Loged in as:   ' + user.email!,
                       style: GoogleFonts.robotoSlab(
                         color: Colors.grey[700],
-                        fontSize: getResponsiveHeight(0.02, context),
+                        fontSize: getResponsiveHeight(0.018, context),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: getResponsiveHeight(0.01, context),
+                ),
+                Row(
+                  children: [
+                    Text(
+                      'UserName:   ' + user.displayName!,
+                      style: GoogleFonts.robotoSlab(
+                        color: Colors.grey[700],
+                        fontSize: getResponsiveHeight(0.018, context),
                         fontWeight: FontWeight.bold,
                       ),
                     ),

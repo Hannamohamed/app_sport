@@ -3,10 +3,62 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_fiers/Data/Cubits/cubit/countries_cubit.dart';
 import 'package:flutter_fiers/Data/Widgets/drawer.dart';
 import 'package:flutter_fiers/Screens/league.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CountriesScreen extends StatelessWidget {
-  const CountriesScreen({super.key});
+  CountriesScreen({super.key});
+
+  TextEditingController locationController = TextEditingController();
+
+  Future<void> getCurrentLocation() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    // Check if location services are enabled
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      // Location services are not enabled, show an error message or request the user to enable it.
+      return Future.error('Location services are disabled.');
+    }
+
+    // Request location permission
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.deniedForever) {
+      // The user has permanently denied permission to access the location.
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+
+    if (permission == LocationPermission.denied) {
+      // The user denied permission, request it
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        // The user denied permission again, show an error message or request the user to grant permission from the settings
+        return Future.error('Location permissions are denied.');
+      }
+    }
+
+    // Get the user's current position
+    Position position = await Geolocator.getCurrentPosition();
+
+    // Reverse geocoding to get the address from coordinates
+    List<Placemark> placemarks = await placemarkFromCoordinates(
+      position.latitude,
+      position.longitude,
+    );
+    if (placemarks.isNotEmpty) {
+      Placemark placemark = placemarks.first;
+      String address = placemark.street ?? '';
+      address += "," + (placemark.locality ?? '');
+      address += "," + (placemark.administrativeArea ?? '');
+      address += "," + (placemark.country ?? '');
+      locationController.text = address;
+    } else {
+      locationController.text = 'Address not found';
+    }
+  }
 
   double getResponsiveHeight(double percentage, BuildContext context) {
     return MediaQuery.of(context).size.height * percentage;
@@ -45,12 +97,13 @@ class CountriesScreen extends StatelessWidget {
                   width: double.infinity,
                   height: getResponsiveHeight(
                       0.1, context), // Responsive app bar height
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     borderRadius:
                         BorderRadius.vertical(bottom: Radius.circular(15)),
                     color: Color.fromRGBO(101, 158, 199, 1),
                   ),
                   child: Row(
+                    // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Builder(
                         builder: (BuildContext context) {
@@ -63,14 +116,41 @@ class CountriesScreen extends StatelessWidget {
                         },
                       ),
                       Center(
-                        child: Text("Select Country",
-                            style: GoogleFonts.robotoSlab(
-                                fontSize: getResponsiveHeight(
-                                    0.03, context), // Responsive font size
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600)),
+                        child: Text(
+                          "Select your favorite sport",
+                          style: GoogleFonts.robotoSlab(
+                              fontSize: getResponsiveHeight(
+                                  0.03, context), // Responsive font size
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600),
+                        ),
                       ),
                     ],
+                  ),
+                ),
+                SizedBox(
+                  height: getResponsiveHeight(0.02, context),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(getResponsiveWidth(0.025, context)),
+                  child: TextField(
+                    controller: locationController,
+                    readOnly: true,
+                    decoration: InputDecoration(
+                      hintText: 'Current Location',
+                      prefixIcon: GestureDetector(
+                        onTap: () {
+                          getCurrentLocation();
+                        },
+                        child: Icon(
+                          Icons.location_on,
+                          color: Color.fromRGBO(101, 158, 199, 1),
+                        ),
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25.0),
+                      ),
+                    ),
                   ),
                 ),
                 SizedBox(
@@ -79,7 +159,7 @@ class CountriesScreen extends StatelessWidget {
                 BlocBuilder<CountriesCubit, CountriesState>(
                     builder: (context, state) {
                   if (state is CountriesLoading) {
-                    return const Center(
+                    return Center(
                       child: CircularProgressIndicator(),
                     );
                   } else if (state is CountriesSuccess) {
@@ -119,7 +199,7 @@ class CountriesScreen extends StatelessWidget {
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(
                                         getResponsiveWidth(0.15, context)),
-                                    color: const Color(0xffe5ecf2),
+                                    color: Color(0xffe5ecf2),
                                   ),
                                   child: Stack(children: [
                                     Column(
@@ -174,23 +254,22 @@ class CountriesScreen extends StatelessWidget {
                                                 height: getResponsiveHeight(
                                                     0.015, context)),
                                             Container(
-                                              alignment: Alignment.center,
-                                              child: Text(
-                                                state.response.result[index]
-                                                        .countryName ??
-                                                    '',
-                                                style: GoogleFonts.robotoSlab(
-                                                  fontSize: (orientation ==
-                                                          Orientation.portrait)
-                                                      ? 20
-                                                      : 18,
-                                                  color:
-                                                      const Color(0xff41627E),
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                                textAlign: TextAlign.center,
-                                              ),
-                                            )
+                                                alignment: Alignment.center,
+                                                child: Text(
+                                                  state.response.result[index]
+                                                          .countryName ??
+                                                      '',
+                                                  style: GoogleFonts.robotoSlab(
+                                                    fontSize: (orientation ==
+                                                            Orientation
+                                                                .portrait)
+                                                        ? 20
+                                                        : 18,
+                                                    color: Color(0xff41627E),
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                  textAlign: TextAlign.center,
+                                                )),
                                           ],
                                         ),
                                       ],
@@ -204,7 +283,7 @@ class CountriesScreen extends StatelessWidget {
                       ),
                     );
                   } else {
-                    return const Center(
+                    return Center(
                       child: Text("Something went wrong"),
                     );
                   }
