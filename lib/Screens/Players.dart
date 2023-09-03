@@ -5,6 +5,7 @@ import 'package:flutter_fiers/Data/Cubits/GetPlayers/cubit/get_players_cubit.dar
 import 'package:flutter_fiers/Data/Widgets/drawer.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
+import 'package:share_plus/share_plus.dart';
 
 class Players extends StatelessWidget {
   final int id;
@@ -20,10 +21,11 @@ class Players extends StatelessWidget {
   double getResponsiveWidth(double percentage, BuildContext context) {
     return MediaQuery.of(context).size.width * percentage;
   }
-/*
-void shareText() {
-    Share.share("islam_hasib");
-  }*/
+
+  void shareText(String playerName, String teamName) {
+    String textToShare = "Name: $playerName\nTeam Name: $teamName";
+    Share.share(textToShare);
+  }
 
   void filterPlayers(String searchQuery) {
     filteredPlayers = players.where((player) {
@@ -57,6 +59,7 @@ void shareText() {
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
                         color: Color(0xff41627E))),
+                Text("Team: ${player.teamName ?? ""}"),
                 Text("Number: ${player.playerNumber ?? ""}"),
                 Text("Country: ${player.playerCountry ?? ""}"),
                 Text("Position: ${player.playerType ?? ""}"),
@@ -65,6 +68,16 @@ void shareText() {
                 Text("Red Cards: ${player.playerRedCards ?? ""}"),
                 Text("Goals: ${player.playerGoals ?? ""}"),
                 Text("Assists: ${player.playerAssists ?? ""}"),
+                ElevatedButton.icon(
+                  onPressed: () {
+                    shareText(
+                      player.playerName ?? "Unknown",
+                      player.teamName ?? "N/A",
+                    );
+                  },
+                  icon: Icon(Icons.share_rounded),
+                  label: Text("SHARE"),
+                ),
               ],
             ),
           ),
