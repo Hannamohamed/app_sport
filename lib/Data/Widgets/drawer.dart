@@ -48,13 +48,14 @@ class CustomDrawer extends StatelessWidget {
                     children: [
                       CircleAvatar(
                         radius: 40,
-                        backgroundImage: NetworkImage(user.photoURL!),
+                        backgroundImage: NetworkImage(user.photoURL ??
+                            "https://i.pinimg.com/564x/43/1a/16/431a164eced527298fea7765edb661c1.jpg"),
                       ),
                       SizedBox(
                         width: getResponsiveHeight(0.01, context),
                       ),
                       Text(
-                        'UserName:\n' + user.displayName!,
+                        user.displayName ?? "User",
                         style: GoogleFonts.robotoSlab(
                           color: Colors.grey[800],
                           fontSize: getResponsiveHeight(0.02, context),
@@ -104,7 +105,7 @@ class CustomDrawer extends StatelessWidget {
                     Text(
                       'Logged in as:\n' + user.email!,
                       style: GoogleFonts.robotoSlab(
-                        color: Colors.grey[700],
+                        color: Colors.grey[600],
                         fontSize: getResponsiveHeight(0.02, context),
                         fontWeight: FontWeight.bold,
                       ),
