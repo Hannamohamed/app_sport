@@ -23,6 +23,7 @@ class Players extends StatelessWidget {
   }
 
   void shareText(String playerName, String teamName) {
+<<<<<<< HEAD
     String textToShare = "Name: $playerName\nteam: $teamName";
     Share.share(textToShare);
   }
@@ -30,6 +31,11 @@ class Players extends StatelessWidget {
 void shareText() {
     Share.share("islam_hasib");
   }*/
+=======
+    String textToShare = "Name: $playerName\nTeam Name: $teamName";
+    Share.share(textToShare);
+  }
+>>>>>>> 2275c40f7aea9e43073041282fc9c3ef5df7cb6c
 
   void filterPlayers(String searchQuery) {
     filteredPlayers = players.where((player) {
@@ -63,6 +69,7 @@ void shareText() {
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
                         color: Color(0xff41627E))),
+                Text("Team: ${player.teamName ?? ""}"),
                 Text("Number: ${player.playerNumber ?? ""}"),
                 Text("Country: ${player.playerCountry ?? ""}"),
                 Text("Position: ${player.playerType ?? ""}"),
@@ -71,6 +78,16 @@ void shareText() {
                 Text("Red Cards: ${player.playerRedCards ?? ""}"),
                 Text("Goals: ${player.playerGoals ?? ""}"),
                 Text("Assists: ${player.playerAssists ?? ""}"),
+                ElevatedButton.icon(
+                  onPressed: () {
+                    shareText(
+                      player.playerName ?? "Unknown",
+                      player.teamName ?? "N/A",
+                    );
+                  },
+                  icon: Icon(Icons.share_rounded),
+                  label: Text("SHARE"),
+                ),
               ],
             ),
           ),
