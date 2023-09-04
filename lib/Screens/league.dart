@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_fiers/Data/Cubits/cubit/leagues_cubit.dart';
+
 import 'package:flutter_fiers/Data/Widgets/drawer.dart';
 import 'package:flutter_fiers/Screens/teams.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
+
+import '../Data/Cubits/cubits/leagues_cubit.dart';
 
 class LeagueScreen extends StatelessWidget {
   final int idleague;
@@ -124,7 +126,7 @@ class LeagueScreen extends StatelessWidget {
                                     width: getResponsiveWidth(
                                         0.9, context), // Responsive width
                                     height: getResponsiveHeight(
-                                        0.15, context), // Responsive height
+                                        0.14, context), // Responsive height
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(
                                           getResponsiveWidth(0.3,
@@ -159,7 +161,7 @@ class LeagueScreen extends StatelessWidget {
                                                 "Unknown",
                                             style: GoogleFonts.robotoSlab(
                                                 fontSize: getResponsiveHeight(
-                                                    0.02,
+                                                    0.022,
                                                     context), // Responsive font size
                                                 fontWeight: FontWeight.w600,
                                                 color: const Color(0xff41627E)),

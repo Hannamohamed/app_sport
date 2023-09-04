@@ -2,15 +2,20 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_fiers/Data/Cubits/OTP/cubit/otp_cubit.dart';
+import 'package:flutter_fiers/Data/Cubits/cubits/countries_cubit.dart';
 import 'package:flutter_fiers/Data/Cubits/GetPlayers/cubit/get_players_cubit.dart';
-import 'package:flutter_fiers/Data/Cubits/cubit/countries_cubit.dart';
-import 'package:flutter_fiers/Data/Cubits/cubit/leagues_cubit.dart';
+
+import 'package:flutter_fiers/Data/Cubits/cubits/leagues_cubit.dart';
+
 import 'package:flutter_fiers/Data/Cubits/teams_status_cubit/teams_scores_cubit.dart';
 import 'package:flutter_fiers/Screens/auth_screen.dart';
+import 'package:flutter_fiers/Screens/home.dart';
 
 import 'package:flutter_fiers/Screens/loginscreen.dart';
 
 import 'package:flutter_fiers/Screens/splashscreen.dart';
+import 'package:flutter_fiers/Screens/oTPLogin.dart';
 
 import 'package:flutter_fiers/Services/fcm.dart';
 import 'package:flutter_fiers/firebase_options.dart';
@@ -63,6 +68,9 @@ class _MyAppState extends State<MyApp> {
         BlocProvider<TeamsScoresCubit>(
           create: (BuildContext context) => TeamsScoresCubit(),
         ),
+        //  BlocProvider<OTPCubit>(
+        //   create: (BuildContext context) => OTPCubit(),
+        // ),
       ],
       child: ScreenUtilInit(
         child: MaterialApp(
@@ -85,7 +93,7 @@ class _MyAppState extends State<MyApp> {
                 seedColor: const Color.fromRGBO(101, 158, 199, 1)),
             useMaterial3: true,
           ),
-          home: splashscreen(),
+          home: HomeScreen(),
         ),
       ),
     );

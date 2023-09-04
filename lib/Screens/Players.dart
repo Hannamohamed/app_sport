@@ -5,6 +5,7 @@ import 'package:flutter_fiers/Data/Cubits/GetPlayers/cubit/get_players_cubit.dar
 import 'package:flutter_fiers/Data/Widgets/drawer.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
+import 'package:share_plus/share_plus.dart';
 
 class Players extends StatelessWidget {
   final int id;
@@ -19,6 +20,11 @@ class Players extends StatelessWidget {
 
   double getResponsiveWidth(double percentage, BuildContext context) {
     return MediaQuery.of(context).size.width * percentage;
+  }
+
+  void shareText(String playerName, String teamName) {
+    String textToShare = "Name: $playerName\nteam: $teamName";
+    Share.share(textToShare);
   }
 /*
 void shareText() {
@@ -69,11 +75,23 @@ void shareText() {
             ),
           ),
           actions: [
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(dialogContext).pop();
-              },
-              child: Text("Close"),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                ElevatedButton.icon(
+                    onPressed: () {
+                      shareText(
+                          player.playerName ?? " ", player.teamName ?? " ");
+                    },
+                    icon: Icon(Icons.share_rounded),
+                    label: Text("Share")),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(dialogContext).pop();
+                  },
+                  child: Text("Close"),
+                ),
+              ],
             ),
           ],
         );
@@ -163,7 +181,9 @@ void shareText() {
                     child: TextFormField(
                       controller: _searchController,
                       decoration: InputDecoration(
-                        hintText: 'Search player name...',
+                        contentPadding: EdgeInsets.symmetric(
+                            vertical: getResponsiveHeight(0.015, context)),
+                        hintText: '  Search player name...',
                         suffixIcon: IconButton(
                           icon: const Icon(
                             Icons.search,
@@ -209,7 +229,7 @@ void shareText() {
                                     width: getResponsiveWidth(
                                         0.9, context), // Responsive width
                                     height: getResponsiveHeight(
-                                        0.15, context), // Responsive height
+                                        0.14, context), // Responsive height
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(
                                           getResponsiveWidth(0.3,

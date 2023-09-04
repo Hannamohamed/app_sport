@@ -6,7 +6,7 @@ class GetPlayersRepo {
   Future<GetPLayersModel?> getplayers(int id) async {
     try {
       var response = await http.get(Uri.parse(
-          "https://apiv2.allsportsapi.com/football/?&met=Players&teamId=$id&APIkey=96dcd54337dd88e5c710d0afbdafaf7f08e390184032cf6b60baf041d7733994"));
+          "https://apiv2.allsportsapi.com/football/?&met=Players&teamId=$id&APIkey=9819e7462cfeeb44124fd5f716823bdf526bfc2f97353aa89ec3ff0441895eb3"));
       var decodedResponse = jsonDecode(response.body);
       if (response.statusCode == 200) {
         GetPLayersModel myResponse = GetPLayersModel.fromJson(decodedResponse);

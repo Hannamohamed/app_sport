@@ -89,14 +89,14 @@ class HomeScreen extends StatelessWidget {
                     getResponsiveHeight(0.1, context), // Responsive SVG height
               ),
               SizedBox(
-                  height: getResponsiveHeight(
-                      0.015, context)), // Responsive spacing
+                  height:
+                      getResponsiveHeight(0.01, context)), // Responsive spacing
               Text(
                 names[index],
                 style: GoogleFonts.robotoSlab(
                     color: const Color.fromRGBO(65, 98, 126, 1),
                     fontSize: getResponsiveHeight(
-                        0.03, context), // Responsive font size
+                        0.025, context), // Responsive font size
                     fontWeight: FontWeight.w600),
               ),
             ],

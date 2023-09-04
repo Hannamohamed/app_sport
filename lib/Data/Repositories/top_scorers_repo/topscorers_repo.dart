@@ -6,7 +6,7 @@ import '../../models/top_scorers_model/top_scorers_model.dart';
 
 class TopScorer {
   static const String _apiKey =
-      '96dcd54337dd88e5c710d0afbdafaf7f08e390184032cf6b60baf041d7733994';
+      '9819e7462cfeeb44124fd5f716823bdf526bfc2f97353aa89ec3ff0441895eb3';
   static const String _baseUrl = 'https://apiv2.allsportsapi.com/football/';
   Future<TopScorersModel?> getTopScorers(int id) async {
     try {

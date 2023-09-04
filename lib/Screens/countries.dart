@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_fiers/Data/Cubits/cubit/countries_cubit.dart';
+import 'package:flutter_fiers/Data/Cubits/cubits/countries_cubit.dart';
+
 import 'package:flutter_fiers/Data/Widgets/drawer.dart';
 import 'package:flutter_fiers/Screens/league.dart';
 import 'package:geocoding/geocoding.dart';
@@ -11,6 +12,7 @@ class CountriesScreen extends StatelessWidget {
   CountriesScreen({super.key});
 
   TextEditingController locationController = TextEditingController();
+  ScrollController _scrollController = ScrollController();
 
   Future<void> getCurrentLocation() async {
     bool serviceEnabled;
@@ -117,7 +119,7 @@ class CountriesScreen extends StatelessWidget {
                       ),
                       Center(
                         child: Text(
-                          "Select your favorite sport",
+                          "Select Country",
                           style: GoogleFonts.robotoSlab(
                               fontSize: getResponsiveHeight(
                                   0.03, context), // Responsive font size
@@ -137,6 +139,8 @@ class CountriesScreen extends StatelessWidget {
                     controller: locationController,
                     readOnly: true,
                     decoration: InputDecoration(
+                      contentPadding: EdgeInsets.symmetric(
+                          vertical: getResponsiveHeight(0.015, context)),
                       hintText: 'Current Location',
                       prefixIcon: GestureDetector(
                         onTap: () {
@@ -252,7 +256,7 @@ class CountriesScreen extends StatelessWidget {
                                             ),
                                             SizedBox(
                                                 height: getResponsiveHeight(
-                                                    0.015, context)),
+                                                    0.01, context)),
                                             Container(
                                                 alignment: Alignment.center,
                                                 child: Text(
@@ -263,8 +267,10 @@ class CountriesScreen extends StatelessWidget {
                                                     fontSize: (orientation ==
                                                             Orientation
                                                                 .portrait)
-                                                        ? 20
-                                                        : 18,
+                                                        ? getResponsiveHeight(
+                                                            0.022, context)
+                                                        : getResponsiveHeight(
+                                                            0.05, context),
                                                     color: Color(0xff41627E),
                                                     fontWeight: FontWeight.w600,
                                                   ),

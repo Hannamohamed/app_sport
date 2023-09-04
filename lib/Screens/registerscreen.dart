@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_fiers/Screens/oTPLogin.dart';
 import 'package:flutter_fiers/Services/auth_ser.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -259,6 +260,25 @@ class _RegisterPageState extends State<RegisterPage>
                             radius: getResponsiveWidth(0.08, context),
                             backgroundImage:
                                 AssetImage('lib/Assets/Images/download.png'),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 8,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute<void>(
+                                builder: (BuildContext context) =>
+                                    OTPLoginPage(),
+                              ),
+                            );
+                          },
+                          child: CircleAvatar(
+                            radius: getResponsiveWidth(0.08, context),
+                            backgroundImage:
+                                AssetImage('lib/Assets/Images/mob.png'),
                           ),
                         )
                       ],
