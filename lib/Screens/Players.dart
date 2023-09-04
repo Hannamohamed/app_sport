@@ -23,7 +23,6 @@ class Players extends StatelessWidget {
   }
 
   void shareText(String playerName, String teamName) {
-<<<<<<< HEAD
     String textToShare = "Name: $playerName\nteam: $teamName";
     Share.share(textToShare);
   }
@@ -31,11 +30,6 @@ class Players extends StatelessWidget {
 void shareText() {
     Share.share("islam_hasib");
   }*/
-=======
-    String textToShare = "Name: $playerName\nTeam Name: $teamName";
-    Share.share(textToShare);
-  }
->>>>>>> 2275c40f7aea9e43073041282fc9c3ef5df7cb6c
 
   void filterPlayers(String searchQuery) {
     filteredPlayers = players.where((player) {
