@@ -1,86 +1,52 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:flutter_fiers/Data/Cubits/cubits/countries_cubit.dart';
+
 import 'package:flutter_fiers/Data/Widgets/drawer.dart';
 import 'package:flutter_fiers/Screens/league.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class CountriesScreen extends StatelessWidget {
-  CountriesScreen({super.key});
+class CountriesScreen extends StatefulWidget {
+  CountriesScreen({Key? key}) : super(key: key);
+  @override
+  _CountryState createState() => _CountryState();
+}
 
+class _CountryState extends State<CountriesScreen> {
   TextEditingController locationController = TextEditingController();
   ScrollController _scrollController = ScrollController();
-  void jumpToIndex(int index, BuildContext context,
-      {ScrollDirection direction = ScrollDirection.forward}) {
-    locationController.addListener(() {
-      double itemHeight = getResponsiveHeight(0.5, context);
-      double offset = index * itemHeight;
-      Duration(milliseconds: 500);
-      Curves.easeInOut;
-      direction;
-      _scrollController.jumpTo(offset);
-    });
-  }
 
-  int k = 0;
   String searchText = '';
-  List<dynamic> pOO = [];
-  _checkTextAndScroll(pOO, BuildContext context) {
-    // Replace this logic with your own condition to check if the text matches an item in the GridView
-    locationController.addListener(() {
-      int itemIndex = 0;
-      for (int i = 0; i < pOO.length; i++) {
-        if ('Item $i' == searchText) {
-          itemIndex = i;
-          k = itemIndex;
-          print(itemIndex);
-          break;
-        }
-      }
-      // jumpToIndex(itemIndex, context);
-      String text = searchText;
-      int index = int.tryParse(text) ?? 10;
-      {
-        jumpToIndex(index, context, direction: ScrollDirection.forward);
-      }
-    });
+  List<dynamic> countries = [];
+
+  @override
+  void initState() {
+    super.initState();
+    // Fetch countries using the CountriesCubit
+    context.read<CountriesCubit>().getCountries();
   }
 
-  // Future jumpToIndex(int index) async {
-  //   _scrollController.animateTo(
-  //     index * 70, // replace itemHeight with the height of your list item
-  //     duration: Duration(milliseconds: 500),
-  //     curve: Curves.easeInOut,
-  //   );
-  //}
   Future<void> getCurrentLocation() async {
     bool serviceEnabled;
-    LocationPermission permission; // Check if location services are enabled
+    LocationPermission permission;
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      // Location services are not enabled, show an error message or request the user to enable it.
       return Future.error('Location services are disabled.');
-    } // Request location permission
+    }
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.deniedForever) {
-      // The user has permanently denied permission to access the location.
-      return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
+      return Future.error('Location permissions are permanently denied.');
     }
     if (permission == LocationPermission.denied) {
-      // The user denied permission, request it
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
-        // The user denied permission again, show an error message or request the user to grant permission from the settings
         return Future.error('Location permissions are denied.');
       }
-    } // Get the user's current position
-    Position position = await Geolocator
-        .getCurrentPosition(); // Reverse geocoding to get the address from coordinates
+    }
+    Position position = await Geolocator.getCurrentPosition();
     List<Placemark> placemarks = await placemarkFromCoordinates(
       position.latitude,
       position.longitude,
@@ -89,13 +55,35 @@ class CountriesScreen extends StatelessWidget {
       Placemark placemark = placemarks.first;
       String address = placemark.country ?? '';
       searchText = address;
-      address += "," + (placemark.locality ?? '');
       address += "," + (placemark.administrativeArea ?? '');
+      address += "," + (placemark.locality ?? '');
       address += "," + (placemark.street ?? '');
       locationController.text = address;
+
+      // Scroll to the country of the current location
+      _checkTextAndScroll(countries, context);
     } else {
       locationController.text = 'Address not found';
     }
+  }
+
+  void _checkTextAndScroll(List<dynamic> countries, BuildContext context) {
+    int itemIndex = 0;
+    for (int i = 0; i < countries.length; i++) {
+      if (countries[i].countryName == searchText) {
+        itemIndex = i;
+        break;
+      }
+    }
+    double itemHeight = getResponsiveHeight(0.115, context);
+    double offset = itemIndex * itemHeight;
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      _scrollController.animateTo(
+        offset,
+        duration: Duration(milliseconds: 500),
+        curve: Curves.easeInOut,
+      );
+    });
   }
 
   double getResponsiveHeight(double percentage, BuildContext context) {
@@ -108,11 +96,6 @@ class CountriesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<CountriesCubit>().getCountries();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _checkTextAndScroll(searchText, context);
-      Duration(seconds: 5);
-    });
     return Scaffold(
       drawer: CustomDrawer(),
       body: SafeArea(
@@ -159,7 +142,7 @@ class CountriesScreen extends StatelessWidget {
                       ),
                       Center(
                         child: Text(
-                          "Select your favorite sport",
+                          "Select Country",
                           style: GoogleFonts.robotoSlab(
                               fontSize: getResponsiveHeight(
                                   0.03, context), // Responsive font size
@@ -180,21 +163,17 @@ class CountriesScreen extends StatelessWidget {
                     readOnly: true,
                     onChanged: (value) {
                       searchText = value;
-                      _checkTextAndScroll(pOO, context);
+                      _checkTextAndScroll(countries, context);
                     },
                     decoration: InputDecoration(
                       hintText: 'Current Location',
+                      contentPadding: EdgeInsets.symmetric(
+                          vertical: getResponsiveHeight(0.015, context)),
                       prefixIcon: GestureDetector(
                         onTap: () {
-                          getCurrentLocation();
-                          //   String text =searchText;
-                          //  int index = int.tryParse(text) ?? -1;
-                          //   {
-
-                          //      jumpToIndex(index, context,
-                          //         direction: ScrollDirection.forward);
-                          // }
-                          _checkTextAndScroll(pOO, context);
+                          setState(() {
+                            getCurrentLocation();
+                          });
                         },
                         child: Icon(
                           Icons.location_on,
@@ -210,153 +189,165 @@ class CountriesScreen extends StatelessWidget {
                 SizedBox(
                   height: getResponsiveHeight(0.02, context),
                 ),
+                // BlocBuilder to get the list of countries
                 BlocBuilder<CountriesCubit, CountriesState>(
-                    builder: (context, state) {
-                  if (state is CountriesLoading) {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  } else if (state is CountriesSuccess) {
-                    return Expanded(
-                      child: OrientationBuilder(
-                        builder: (context, orientation) {
-                          return GridView.builder(
-                            controller: _scrollController,
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount:
-                                  (orientation == Orientation.portrait) ? 2 : 4,
-                            ),
-                            itemCount: state.response.result.length,
-                            itemBuilder: (context, index) {
-                              // _scrollController;
-                              return InkWell(
-                                onTap: () {
-                                  // searchText =
-                                  //     state.response.result[index].countryName;
-                                  _checkTextAndScroll(
-                                      state.response.result.length, context);
-                                  //jumpToIndex(index);
-                                  //  InkWell(
-                                  //   onTap: () {
-                                  Navigator.push(
+                  builder: (context, state) {
+                    if (state is CountriesLoading) {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else if (state is CountriesSuccess) {
+                      // Update the 'countries' list when data is available
+                      countries = state.response.result;
+                      return Expanded(
+                        child: OrientationBuilder(
+                          builder: (context, orientation) {
+                            return GridView.builder(
+                              controller: _scrollController,
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount:
+                                    (orientation == Orientation.portrait)
+                                        ? 2
+                                        : 4,
+                              ),
+                              itemCount: countries.length,
+                              itemBuilder: (context, index) {
+                                return InkWell(
+                                  onTap: () {
+                                    searchText = countries[index].countryName;
+                                    Navigator.push(
                                       context,
                                       MaterialPageRoute<void>(
                                         builder: (BuildContext context) =>
                                             LeagueScreen(
-                                          idleague: state.response.result[index]
-                                              .countryKey,
+                                          idleague: countries[index].countryKey,
                                         ),
-                                      ));
-                                },
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  margin: EdgeInsets.all(
-                                      getResponsiveWidth(0.02, context)),
-                                  width: (orientation == Orientation.portrait)
-                                      ? getResponsiveWidth(0.3, context)
-                                      : getResponsiveWidth(0.16, context),
-                                  height: (orientation == Orientation.portrait)
-                                      ? getResponsiveHeight(0.3, context)
-                                      : getResponsiveHeight(0.5, context),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(
-                                        getResponsiveWidth(0.15, context)),
-                                    color: state.response.result[index]
-                                                .countryName ==
-                                            searchText
-                                        ? Colors.blue
-                                        : Colors.white,
-                                  ),
-                                  child: Stack(children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Column(
-                                          children: [
-                                            SizedBox(
+                                      ),
+                                    );
+                                  },
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    margin: EdgeInsets.all(
+                                        getResponsiveWidth(0.02, context)),
+                                    width: (orientation == Orientation.portrait)
+                                        ? getResponsiveWidth(0.3, context)
+                                        : getResponsiveWidth(0.16, context),
+                                    height:
+                                        (orientation == Orientation.portrait)
+                                            ? getResponsiveHeight(0.3, context)
+                                            : getResponsiveHeight(0.5, context),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(
+                                          getResponsiveWidth(0.15, context)),
+                                      color: state.response.result[index]
+                                                  .countryName ==
+                                              searchText
+                                          ? Color.fromRGBO(101, 158, 199, 1)
+                                          : Color.fromRGBO(229, 236, 242, 0.70),
+                                    ),
+                                    child: Stack(children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Column(
+                                            children: [
+                                              SizedBox(
+                                                  height: (orientation ==
+                                                          Orientation.portrait)
+                                                      ? getResponsiveHeight(
+                                                          0.05, context)
+                                                      : getResponsiveHeight(
+                                                          0.05, context)),
+                                              Container(
+                                                width: (orientation ==
+                                                        Orientation.portrait)
+                                                    ? getResponsiveWidth(
+                                                        0.208, context)
+                                                    : getResponsiveWidth(
+                                                        0.1, context),
                                                 height: (orientation ==
                                                         Orientation.portrait)
                                                     ? getResponsiveHeight(
-                                                        0.05, context)
+                                                        0.09375, context)
                                                     : getResponsiveHeight(
-                                                        0.05, context)),
-                                            Container(
-                                              width: (orientation ==
-                                                      Orientation.portrait)
-                                                  ? getResponsiveWidth(
-                                                      0.208, context)
-                                                  : getResponsiveWidth(
-                                                      0.1, context),
-                                              height: (orientation ==
-                                                      Orientation.portrait)
-                                                  ? getResponsiveHeight(
-                                                      0.09375, context)
-                                                  : getResponsiveHeight(
-                                                      0.19, context),
-                                              decoration: BoxDecoration(
-                                                borderRadius: BorderRadius
-                                                    .circular((orientation ==
+                                                        0.19, context),
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius
+                                                      .circular((orientation ==
+                                                              Orientation
+                                                                  .portrait)
+                                                          ? getResponsiveWidth(
+                                                              0.208 / 2,
+                                                              context)
+                                                          : getResponsiveHeight(
+                                                              0.1, context)),
+                                                  image: DecorationImage(
+                                                    image: NetworkImage(state
+                                                            .response
+                                                            .result[index]
+                                                            .countryLogo ??
+                                                        ''),
+                                                    fit: (orientation ==
                                                             Orientation
                                                                 .portrait)
-                                                        ? getResponsiveWidth(
-                                                            0.208 / 2, context)
-                                                        : getResponsiveHeight(
-                                                            0.1, context)),
-                                                image: DecorationImage(
-                                                  image: NetworkImage(state
-                                                          .response
-                                                          .result[index]
-                                                          .countryLogo ??
-                                                      ''),
-                                                  fit: (orientation ==
-                                                          Orientation.portrait)
-                                                      ? BoxFit.fitHeight
-                                                      : BoxFit.cover,
+                                                        ? BoxFit.fitHeight
+                                                        : BoxFit.cover,
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                            SizedBox(
-                                                height: getResponsiveHeight(
-                                                    0.015, context)),
-                                            Container(
-                                                alignment: Alignment.center,
-                                                child: Text(
-                                                  state.response.result[index]
-                                                          .countryName ??
-                                                      '',
-                                                  style: GoogleFonts.robotoSlab(
-                                                    fontSize: (orientation ==
-                                                            Orientation
-                                                                .portrait)
-                                                        ? 15
-                                                        : 15,
-                                                    color: Color(0xff41627E),
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                                  textAlign: TextAlign.center,
-                                                )),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ]),
-                                ),
-                              );
-                            },
-                          );
-                        },
-                      ),
-                    );
-                  } else {
-                    return Center(
-                      child: Text("Something went wrong"),
-                    );
-                  }
-                })
+                                              SizedBox(
+                                                  height: getResponsiveHeight(
+                                                      0.01, context)),
+                                              Container(
+                                                  alignment: Alignment.center,
+                                                  child: Text(
+                                                    state.response.result[index]
+                                                            .countryName ??
+                                                        '',
+                                                    style:
+                                                        GoogleFonts.robotoSlab(
+                                                      fontSize: (orientation ==
+                                                              Orientation
+                                                                  .portrait)
+                                                          ? getResponsiveHeight(
+                                                              0.021, context)
+                                                          : getResponsiveHeight(
+                                                              0.05, context),
+                                                      color: state
+                                                                  .response
+                                                                  .result[index]
+                                                                  .countryName ==
+                                                              searchText
+                                                          ? Colors.white
+                                                          : Color(0xff41627E),
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                    ),
+                                                    textAlign: TextAlign.center,
+                                                  )),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ]),
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                        ),
+                      );
+                    } else {
+                      return Center(
+                        child: Text("Something went wrong"),
+                      );
+                    }
+                  },
+                ),
               ],
-            )
+            ),
           ],
         ),
       ),

@@ -24,6 +24,9 @@ class _TeamsScoresScreen extends State<TeamsScoresScreen>
   late TabController _tabController;
   late final AnimationController _animationController;
   late final Animation<double> _animation;
+  double getResponsiveHeight(double percentage, BuildContext context) {
+    return MediaQuery.of(context).size.height * percentage;
+  }
 
   @override
   void initState() {
@@ -136,9 +139,6 @@ class _TeamsScoresScreen extends State<TeamsScoresScreen>
                   ),
                 ),
               ),
-              /* shape: RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.vertical(bottom: Radius.circular(15))),*/
             ),
             body: Column(
               children: [
@@ -185,11 +185,15 @@ class _TeamsScoresScreen extends State<TeamsScoresScreen>
                                       children: [
                                         if (state is TeamsScoresTeams)
                                           Padding(
-                                            padding: EdgeInsets.symmetric(
+                                            padding: const EdgeInsets.symmetric(
                                                 vertical: 10),
                                             child: TextFormField(
                                               controller: search,
                                               decoration: InputDecoration(
+                                                contentPadding:
+                                                    const EdgeInsets.symmetric(
+                                                  horizontal: 15,
+                                                ),
                                                 enabledBorder:
                                                     OutlineInputBorder(
                                                   borderRadius:
@@ -206,10 +210,11 @@ class _TeamsScoresScreen extends State<TeamsScoresScreen>
                                                 ),
                                                 hintText: 'Search',
                                                 suffixIcon: IconButton(
-                                                  icon:
-                                                      const Icon(Icons.search),
-                                                  color: Color.fromRGBO(
-                                                      101, 158, 199, 1),
+                                                  icon: const Icon(
+                                                    Icons.search,
+                                                    color: Color.fromRGBO(
+                                                        101, 158, 199, 1),
+                                                  ),
                                                   onPressed: () {
                                                     if (search.text != "") {
                                                       context
@@ -263,7 +268,7 @@ class _TeamsScoresScreen extends State<TeamsScoresScreen>
                                                       child: Padding(
                                                         padding:
                                                             const EdgeInsets
-                                                                .all(5.0),
+                                                                .all(.1),
                                                         child: InkWell(
                                                           onTap: () {
                                                             // searchPlayer.text = "";
@@ -286,7 +291,7 @@ class _TeamsScoresScreen extends State<TeamsScoresScreen>
                                                                 borderRadius:
                                                                     BorderRadius
                                                                         .circular(
-                                                                            40.0),
+                                                                            65.0),
                                                                 color: const Color
                                                                     .fromARGB(
                                                                     255,
@@ -337,10 +342,15 @@ class _TeamsScoresScreen extends State<TeamsScoresScreen>
                                                                               .ourresponse
                                                                               .result![index]
                                                                               .teamName!,
-                                                                          style: GoogleFonts.quicksand(
-                                                                              fontSize: 14.sp,
-                                                                              color: Color.fromRGBO(65, 98, 126, 1),
-                                                                              fontWeight: FontWeight.w600),
+                                                                          style:
+                                                                              GoogleFonts.robotoSlab(
+                                                                            color:
+                                                                                Color(0xff41627E),
+                                                                            fontWeight:
+                                                                                FontWeight.w600,
+                                                                            fontSize:
+                                                                                getResponsiveHeight(0.022, context),
+                                                                          ),
                                                                         ),
                                                                       ),
                                                                     ]),
