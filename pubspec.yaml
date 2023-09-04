@@ -69,7 +69,7 @@ dev_dependencies:
   flutter_launcher_icons: "^0.13.1"
 
 flutter_icons:
-  image_path: "lib/Assets/Images/WhatsApp Image 2023-08-30 at 09.05.52.png"
+  image_path: "lib/Assets/Images/Remove background project (6).png"
   android: true
   ios: true
   # The "flutter_lints" package below contains a set of recommended lints to

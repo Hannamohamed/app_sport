@@ -93,7 +93,7 @@ class _MyAppState extends State<MyApp> {
                 seedColor: const Color.fromRGBO(101, 158, 199, 1)),
             useMaterial3: true,
           ),
-          home: HomeScreen(),
+          home: splashscreen(),
         ),
       ),
     );

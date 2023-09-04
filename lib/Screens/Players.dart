@@ -72,16 +72,6 @@ void shareText() {
                 Text("Red Cards: ${player.playerRedCards ?? ""}"),
                 Text("Goals: ${player.playerGoals ?? ""}"),
                 Text("Assists: ${player.playerAssists ?? ""}"),
-                // ElevatedButton.icon(
-                //   onPressed: () {
-                //     shareText(
-                //       player.playerName ?? "Unknown",
-                //       player.teamName ?? "N/A",
-                //     );
-                //   },
-                //   icon: Icon(Icons.share_rounded),
-                //   label: Text("SHARE"),
-                // ),
               ],
             ),
           ),
