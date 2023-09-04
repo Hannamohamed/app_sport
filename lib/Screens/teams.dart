@@ -70,19 +70,19 @@ class _TeamsScoresScreen extends State<TeamsScoresScreen>
             // backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
             appBar: AppBar(
               automaticallyImplyLeading: false,
-              backgroundColor: Color.fromRGBO(101, 158, 199, 1),
-              title: Center(
-                  child: Text(
-                "Select Team",
-                style: GoogleFonts.robotoSlab(
-                    color: Colors.white,
-                    fontSize: 22.sp,
-                    fontWeight: FontWeight.w600),
-              )),
+              backgroundColor: const Color.fromRGBO(101, 158, 199, 1),
+              // title: Center(
+              //     child: Text(
+              //   "Select Team",
+              //   style: GoogleFonts.robotoSlab(
+              //       color: Colors.white,
+              //       fontSize: 22.sp,
+              //       fontWeight: FontWeight.w600),
+              // )),
               leading: Builder(
                 builder: (BuildContext context) {
                   return IconButton(
-                    icon: Icon(Icons.menu),
+                    icon: const Icon(Icons.menu),
                     onPressed: () {
                       Scaffold.of(context).openDrawer();
                     },
@@ -92,10 +92,10 @@ class _TeamsScoresScreen extends State<TeamsScoresScreen>
               bottom: PreferredSize(
                 preferredSize: const Size.fromHeight(kToolbarHeight),
                 child: Container(
-                  color: Color.fromRGBO(101, 158, 199, 1),
+                  color: const Color.fromRGBO(101, 158, 199, 1),
                   child: TabBar(
                     indicatorColor: Colors.white,
-                    dividerColor: Color.fromRGBO(101, 158, 199, 1),
+                    dividerColor: const Color.fromRGBO(101, 158, 199, 1),
                     indicatorSize: TabBarIndicatorSize.label,
                     controller: _tabController,
                     tabs: [
@@ -144,15 +144,15 @@ class _TeamsScoresScreen extends State<TeamsScoresScreen>
               children: [
                 ClipRRect(
                   borderRadius:
-                      BorderRadius.vertical(bottom: Radius.circular(15)),
+                      const BorderRadius.vertical(bottom: Radius.circular(15)),
                   child: Container(
                     height: 15,
-                    color: Color.fromRGBO(101, 158, 199, 1),
+                    color: const Color.fromRGBO(101, 158, 199, 1),
                   ),
                 ),
                 Expanded(
                   child: Container(
-                    color: Color.fromRGBO(255, 255, 255, 1),
+                    color: const Color.fromRGBO(255, 255, 255, 1),
                     child: Stack(
                       children: [
                         Align(
@@ -160,7 +160,7 @@ class _TeamsScoresScreen extends State<TeamsScoresScreen>
                           child: SingleChildScrollView(
                             child: Container(
                               padding: const EdgeInsets.symmetric(
-                                  vertical: 15, horizontal: 20),
+                                  vertical: 15, horizontal: 15),
                               height: ScreenUtil().screenHeight * 0.8,
                               decoration: const BoxDecoration(
                                 gradient: LinearGradient(
@@ -185,30 +185,19 @@ class _TeamsScoresScreen extends State<TeamsScoresScreen>
                                       children: [
                                         if (state is TeamsScoresTeams)
                                           Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 10),
+                                            padding: EdgeInsets.only(
+                                                top: getResponsiveHeight(
+                                                    0.008, context),
+                                                bottom: getResponsiveHeight(
+                                                    0.01, context)),
                                             child: TextFormField(
                                               controller: search,
                                               decoration: InputDecoration(
-                                                contentPadding:
-                                                    const EdgeInsets.symmetric(
-                                                  horizontal: 15,
-                                                ),
-                                                enabledBorder:
-                                                    OutlineInputBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          25.0),
-                                                ),
-                                                filled: true,
-                                                fillColor: Color.fromARGB(
-                                                    255, 255, 255, 255),
-                                                border: OutlineInputBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          25.0),
-                                                ),
-                                                hintText: 'Search',
+                                                contentPadding: EdgeInsets.all(
+                                                    getResponsiveHeight(
+                                                        0.015, context)),
+                                                hintText:
+                                                    '  Search player name...',
                                                 suffixIcon: IconButton(
                                                   icon: const Icon(
                                                     Icons.search,
@@ -229,9 +218,62 @@ class _TeamsScoresScreen extends State<TeamsScoresScreen>
                                                     }
                                                   },
                                                 ),
+                                                border: OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          25.0),
+                                                ),
                                               ),
                                             ),
                                           ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        // Padding(
+                                        //   padding: const EdgeInsets.symmetric(
+                                        //       vertical: 10),
+                                        //   child: TextFormField(
+                                        //     controller: search,
+                                        //     decoration: InputDecoration(
+                                        //       contentPadding: EdgeInsets.all(
+                                        //         getResponsiveHeight(
+                                        //             0.015, context),
+                                        //       ),
+                                        //       enabledBorder:
+                                        //           OutlineInputBorder(
+                                        //         borderRadius:
+                                        //             BorderRadius.circular(
+                                        //                 25.0),
+                                        //       ),
+                                        //       border: OutlineInputBorder(
+                                        //         borderRadius:
+                                        //             BorderRadius.circular(
+                                        //                 25.0),
+                                        //       ),
+                                        //       hintText: 'Search',
+                                        //       suffixIcon: IconButton(
+                                        //         icon: const Icon(
+                                        //           Icons.search,
+                                        //           color: Color.fromRGBO(
+                                        //               101, 158, 199, 1),
+                                        //         ),
+                                        //         onPressed: () {
+                                        //           if (search.text != "") {
+                                        //             context
+                                        //                 .read<
+                                        //                     TeamsScoresCubit>()
+                                        //                 .getTeam(widget.id);
+                                        //           } else {
+                                        //             context
+                                        //                 .read<
+                                        //                     TeamsScoresCubit>()
+                                        //                 .getTeam(widget.id);
+                                        //           }
+                                        //         },
+                                        //       ),
+                                        //     ),
+                                        //   ),
+                                        // ),
                                         if (state is TeamsScoresTeams &&
                                             state.ourresponse.result != null)
                                           Expanded(
@@ -268,7 +310,7 @@ class _TeamsScoresScreen extends State<TeamsScoresScreen>
                                                       child: Padding(
                                                         padding:
                                                             const EdgeInsets
-                                                                .all(.1),
+                                                                .all(0.04),
                                                         child: InkWell(
                                                           onTap: () {
                                                             // searchPlayer.text = "";
@@ -291,13 +333,13 @@ class _TeamsScoresScreen extends State<TeamsScoresScreen>
                                                                 borderRadius:
                                                                     BorderRadius
                                                                         .circular(
-                                                                            65.0),
+                                                                            55.0),
                                                                 color: const Color
-                                                                    .fromARGB(
-                                                                    255,
-                                                                    245,
-                                                                    245,
-                                                                    245),
+                                                                    .fromRGBO(
+                                                                    229,
+                                                                    236,
+                                                                    242,
+                                                                    0.70),
                                                               ),
                                                               child: Center(
                                                                 child: Column(
@@ -305,52 +347,51 @@ class _TeamsScoresScreen extends State<TeamsScoresScreen>
                                                                         CrossAxisAlignment
                                                                             .center,
                                                                     children: [
-                                                                      Expanded(
-                                                                          child:
-                                                                              Padding(
-                                                                        padding: const EdgeInsets
-                                                                            .all(
-                                                                            20),
-                                                                        child:
-                                                                            CachedNetworkImage(
-                                                                          imageUrl: state
-                                                                              .ourresponse
-                                                                              .result![index]
-                                                                              .teamLogo!,
-                                                                          errorWidget: (context, url, error) =>
-                                                                              Icon(
-                                                                            Icons.person,
-                                                                            size:
-                                                                                85,
-                                                                            color: Color.fromRGBO(
-                                                                                65,
-                                                                                98,
-                                                                                126,
-                                                                                1),
-                                                                          ),
-                                                                          fit: BoxFit
-                                                                              .cover,
-                                                                        ),
-                                                                      )),
                                                                       Padding(
                                                                         padding: const EdgeInsets
-                                                                            .all(
-                                                                            3.0),
+                                                                            .only(
+                                                                            top:
+                                                                                30,
+                                                                            right:
+                                                                                20,
+                                                                            left:
+                                                                                20,
+                                                                            bottom:
+                                                                                10),
                                                                         child:
-                                                                            Text(
-                                                                          state
-                                                                              .ourresponse
-                                                                              .result![index]
-                                                                              .teamName!,
-                                                                          style:
-                                                                              GoogleFonts.robotoSlab(
-                                                                            color:
-                                                                                Color(0xff41627E),
-                                                                            fontWeight:
-                                                                                FontWeight.w600,
-                                                                            fontSize:
-                                                                                getResponsiveHeight(0.022, context),
+                                                                            CircleAvatar(
+                                                                          radius: (getResponsiveHeight(
+                                                                              0.045,
+                                                                              context)),
+                                                                          child:
+                                                                              CachedNetworkImage(
+                                                                            imageUrl:
+                                                                                state.ourresponse.result![index].teamLogo!,
+                                                                            errorWidget: (context, url, error) =>
+                                                                                const Icon(
+                                                                              Icons.person,
+                                                                              size: 85,
+                                                                              color: Color.fromRGBO(65, 98, 126, 1),
+                                                                            ),
+                                                                            fit:
+                                                                                BoxFit.cover,
                                                                           ),
+                                                                        ),
+                                                                      ),
+                                                                      Text(
+                                                                        state
+                                                                            .ourresponse
+                                                                            .result![index]
+                                                                            .teamName!,
+                                                                        style: GoogleFonts
+                                                                            .robotoSlab(
+                                                                          color:
+                                                                              const Color(0xff41627E),
+                                                                          fontWeight:
+                                                                              FontWeight.w600,
+                                                                          fontSize: getResponsiveHeight(
+                                                                              0.019,
+                                                                              context),
                                                                         ),
                                                                       ),
                                                                     ]),
@@ -359,7 +400,7 @@ class _TeamsScoresScreen extends State<TeamsScoresScreen>
                                                       ),
                                                     );
                                                   } else {
-                                                    return const Text('data');
+                                                    return const Text('');
                                                   }
                                                 },
                                               ),
@@ -424,7 +465,8 @@ class _TeamsScoresScreen extends State<TeamsScoresScreen>
                                                     children: [
                                                       CircleAvatar(
                                                         backgroundColor:
-                                                            Color.fromRGBO(101,
+                                                            const Color
+                                                                .fromRGBO(101,
                                                                 158, 199, 1),
                                                         radius: ScreenUtil()
                                                                     .orientation ==
@@ -464,12 +506,12 @@ class _TeamsScoresScreen extends State<TeamsScoresScreen>
                                                               style: GoogleFonts
                                                                   .robotoSlab(
                                                                 fontSize: 18.sp,
-                                                                color: Color
+                                                                color: const Color
                                                                     .fromRGBO(
-                                                                        101,
-                                                                        158,
-                                                                        199,
-                                                                        1),
+                                                                    101,
+                                                                    158,
+                                                                    199,
+                                                                    1),
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .w600,
@@ -488,7 +530,8 @@ class _TeamsScoresScreen extends State<TeamsScoresScreen>
                                                                         .robotoSlab(
                                                                       fontSize:
                                                                           14.sp,
-                                                                      color: Color.fromRGBO(
+                                                                      color: const Color
+                                                                          .fromRGBO(
                                                                           101,
                                                                           158,
                                                                           199,
@@ -508,7 +551,8 @@ class _TeamsScoresScreen extends State<TeamsScoresScreen>
                                                                         .robotoSlab(
                                                                       fontSize:
                                                                           14.sp,
-                                                                      color: Color.fromRGBO(
+                                                                      color: const Color
+                                                                          .fromRGBO(
                                                                           101,
                                                                           158,
                                                                           199,
@@ -526,12 +570,12 @@ class _TeamsScoresScreen extends State<TeamsScoresScreen>
                                                                       .robotoSlab(
                                                                     fontSize:
                                                                         14.sp,
-                                                                    color: Color
+                                                                    color: const Color
                                                                         .fromRGBO(
-                                                                            101,
-                                                                            158,
-                                                                            199,
-                                                                            1),
+                                                                        101,
+                                                                        158,
+                                                                        199,
+                                                                        1),
                                                                     fontWeight:
                                                                         FontWeight
                                                                             .bold,
@@ -543,12 +587,12 @@ class _TeamsScoresScreen extends State<TeamsScoresScreen>
                                                                       .robotoSlab(
                                                                     fontSize:
                                                                         14.sp,
-                                                                    color: Color
+                                                                    color: const Color
                                                                         .fromRGBO(
-                                                                            101,
-                                                                            158,
-                                                                            199,
-                                                                            1),
+                                                                        101,
+                                                                        158,
+                                                                        199,
+                                                                        1),
                                                                   ),
                                                                 ),
                                                               ],

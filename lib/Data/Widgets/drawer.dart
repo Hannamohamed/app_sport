@@ -1,8 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fiers/Screens/auth_screen.dart';
-import 'package:flutter_fiers/Screens/loginscreen.dart';
-import 'package:flutter_fiers/Services/auth_ser.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CustomDrawer extends StatelessWidget {
@@ -25,7 +23,7 @@ class CustomDrawer extends StatelessWidget {
       // If the user is not logged in, navigate to another screen (e.g., login screen).
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => Auth(),
+          builder: (context) => const Auth(),
         ),
       );
     }
@@ -38,7 +36,7 @@ class CustomDrawer extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: [
           DrawerHeader(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Color.fromRGBO(101, 158, 199, 1),
             ),
             child: Center(
@@ -125,7 +123,7 @@ class CustomDrawer extends StatelessWidget {
                     ElevatedButton(
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(
-                          Color.fromRGBO(101, 158, 199, 1),
+                          const Color.fromRGBO(101, 158, 199, 1),
                         ),
                       ),
                       onPressed: () {

@@ -37,7 +37,6 @@ void shareText() {
       final query = searchQuery.toLowerCase();
       return playerName.contains(query);
     }).toList();
-    print("Filtered Players: $filteredPlayers");
   }
 
   void _showPlayerDetailsDialog(BuildContext context, dynamic player) {
@@ -57,12 +56,12 @@ void shareText() {
                         "https://st3.depositphotos.com/3581215/18899/v/450/depositphotos_188994514-stock-illustration-vector-illustration-male-silhouette-profile.jpg",
                   ),
                 ),
-                SizedBox(height: 5),
+                const SizedBox(height: 5),
                 Text(player.playerName ?? " ",
                     style: GoogleFonts.inter(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
-                        color: Color(0xff41627E))),
+                        color: const Color(0xff41627E))),
                 Text("Team: ${player.teamName ?? ""}"),
                 Text("Number: ${player.playerNumber ?? ""}"),
                 Text("Country: ${player.playerCountry ?? ""}"),
@@ -84,13 +83,13 @@ void shareText() {
                       shareText(
                           player.playerName ?? " ", player.teamName ?? " ");
                     },
-                    icon: Icon(Icons.share_rounded),
-                    label: Text("Share")),
+                    icon: const Icon(Icons.share_rounded),
+                    label: const Text("Share")),
                 ElevatedButton(
                   onPressed: () {
                     Navigator.of(dialogContext).pop();
                   },
-                  child: Text("Close"),
+                  child: const Text("Close"),
                 ),
               ],
             ),
@@ -146,7 +145,7 @@ void shareText() {
                     width: double.infinity,
                     height: getResponsiveHeight(
                         0.1, context), // Responsive app bar height
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       borderRadius:
                           BorderRadius.vertical(bottom: Radius.circular(15)),
                       color: Color.fromRGBO(101, 158, 199, 1),
@@ -156,7 +155,7 @@ void shareText() {
                         Builder(
                           builder: (BuildContext context) {
                             return IconButton(
-                              icon: Icon(Icons.menu),
+                              icon: const Icon(Icons.menu),
                               onPressed: () {
                                 Scaffold.of(context).openDrawer();
                               },
@@ -182,8 +181,8 @@ void shareText() {
                     child: TextFormField(
                       controller: _searchController,
                       decoration: InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(
-                            vertical: getResponsiveHeight(0.015, context)),
+                        contentPadding:
+                            EdgeInsets.all(getResponsiveHeight(0.015, context)),
                         hintText: '  Search player name...',
                         suffixIcon: IconButton(
                           icon: const Icon(
@@ -362,7 +361,7 @@ void shareText() {
                         Builder(
                           builder: (BuildContext context) {
                             return IconButton(
-                              icon: Icon(Icons.menu),
+                              icon: const Icon(Icons.menu),
                               onPressed: () {
                                 Scaffold.of(context).openDrawer();
                               },

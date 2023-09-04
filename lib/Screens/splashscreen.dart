@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_fiers/Screens/auth_screen.dart';
-import 'package:flutter_fiers/Screens/home.dart';
 import 'package:flutter_fiers/Screens/onboarding_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -25,10 +24,10 @@ class _splashscreenState extends State<splashscreen>
   void initState() {
     super.initState();
     _logocontroller =
-        AnimationController(vsync: this, duration: Duration(seconds: 1));
+        AnimationController(vsync: this, duration: const Duration(seconds: 1));
     _logocontroller.forward();
 
-    Timer(Duration(seconds: 2), () {
+    Timer(const Duration(seconds: 2), () {
       //  Navigator.pushReplacement(
       //    context,
       //   MaterialPageRoute(builder: (context) =>PageSwapperWidget()),
@@ -37,7 +36,7 @@ class _splashscreenState extends State<splashscreen>
         if (hasSeen) {
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => Auth()),
+            MaterialPageRoute(builder: (context) => const Auth()),
           );
         } else {
           Navigator.pushReplacement(

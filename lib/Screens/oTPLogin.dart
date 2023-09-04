@@ -55,7 +55,7 @@ class _OTPLoginPageState extends State<OTPLoginPage>
                   fontWeight: FontWeight.w600)),
           actions: <Widget>[
             ElevatedButton(
-              child: Text('OK'),
+              child: const Text('OK'),
               onPressed: () {
                 Navigator.of(context).pop();
                 _otpController.text = generatedOTP;
@@ -89,7 +89,7 @@ class _OTPLoginPageState extends State<OTPLoginPage>
 
     // Simulate OTP validation.
     await Future.delayed(
-        Duration(seconds: 3)); // Simulate loading for 3 seconds.
+        const Duration(seconds: 3)); // Simulate loading for 3 seconds.
 
     if (enteredOTP == generatedOTP) {
       // OTP validation successful, navigate to HomeScreen.
@@ -198,7 +198,7 @@ class _OTPLoginPageState extends State<OTPLoginPage>
                       ),
                     ),
                     SizedBox(
-                      height: getResponsiveHeight(0.01, context),
+                      height: getResponsiveHeight(0.015, context),
                     ),
                     Container(
                       margin: const EdgeInsets.symmetric(
@@ -207,7 +207,7 @@ class _OTPLoginPageState extends State<OTPLoginPage>
                       child: ElevatedButton(
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all<Color>(
-                            Color.fromRGBO(101, 158, 199, 1),
+                            const Color.fromRGBO(101, 158, 199, 1),
                           ),
                         ),
                         onPressed: _loading
@@ -217,8 +217,8 @@ class _OTPLoginPageState extends State<OTPLoginPage>
                                 generateAndShowOTP(context);
                               },
                         child: _loading
-                            ? CircularProgressIndicator()
-                            : Text(
+                            ? const CircularProgressIndicator()
+                            : const Text(
                                 'Generate OTP',
                                 style: TextStyle(
                                   color: Colors.white,
@@ -227,7 +227,7 @@ class _OTPLoginPageState extends State<OTPLoginPage>
                       ),
                     ),
                     SizedBox(
-                      height: getResponsiveHeight(0.01, context),
+                      height: getResponsiveHeight(0.002, context),
                     ),
                     Container(
                       margin: const EdgeInsets.symmetric(
@@ -236,7 +236,7 @@ class _OTPLoginPageState extends State<OTPLoginPage>
                       child: ElevatedButton(
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all<Color>(
-                            Color.fromRGBO(101, 158, 199, 1),
+                            const Color.fromRGBO(101, 158, 199, 1),
                           ),
                         ),
                         onPressed: _loading
@@ -246,8 +246,8 @@ class _OTPLoginPageState extends State<OTPLoginPage>
                                 verifyOTP();
                               },
                         child: _loading
-                            ? CircularProgressIndicator()
-                            : Text(
+                            ? const CircularProgressIndicator()
+                            : const Text(
                                 'Verify OTP',
                                 style: TextStyle(
                                   color: Colors.white,
@@ -258,8 +258,31 @@ class _OTPLoginPageState extends State<OTPLoginPage>
                     SizedBox(
                       height: getResponsiveHeight(0.01, context),
                     ),
-                    SizedBox(
-                      height: getResponsiveHeight(0.03, context),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Divider(
+                              thickness: 0.5,
+                              color: Colors.grey[500],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              'Or continue with',
+                              style: TextStyle(color: Colors.grey[700]),
+                            ),
+                          ),
+                          Expanded(
+                            child: Divider(
+                              thickness: 0.5,
+                              color: Colors.grey[500],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -268,8 +291,8 @@ class _OTPLoginPageState extends State<OTPLoginPage>
                           onTap: () => AuthService().signInWithGoogle(),
                           child: CircleAvatar(
                             radius: getResponsiveWidth(0.08, context),
-                            backgroundImage:
-                                AssetImage('lib/Assets/Images/download.png'),
+                            backgroundImage: const AssetImage(
+                                'lib/Assets/Images/download.png'),
                           ),
                         ),
                       ],

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:flutter_fiers/Data/Cubits/cubits/countries_cubit.dart';
-
 import 'package:flutter_fiers/Data/Widgets/drawer.dart';
 import 'package:flutter_fiers/Screens/league.dart';
 import 'package:geocoding/geocoding.dart';
@@ -10,14 +8,14 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CountriesScreen extends StatefulWidget {
-  CountriesScreen({Key? key}) : super(key: key);
+  const CountriesScreen({Key? key}) : super(key: key);
   @override
-  _CountryState createState() => _CountryState();
+  CountryState createState() => CountryState();
 }
 
-class _CountryState extends State<CountriesScreen> {
+class CountryState extends State<CountriesScreen> {
   TextEditingController locationController = TextEditingController();
-  ScrollController _scrollController = ScrollController();
+  ScrollController scrollController = ScrollController();
 
   String searchText = '';
   List<dynamic> countries = [];
@@ -77,10 +75,10 @@ class _CountryState extends State<CountriesScreen> {
     }
     double itemHeight = getResponsiveHeight(0.115, context);
     double offset = itemIndex * itemHeight;
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      _scrollController.animateTo(
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      scrollController.animateTo(
         offset,
-        duration: Duration(milliseconds: 500),
+        duration: const Duration(milliseconds: 500),
         curve: Curves.easeInOut,
       );
     });
@@ -122,7 +120,7 @@ class _CountryState extends State<CountriesScreen> {
                   width: double.infinity,
                   height: getResponsiveHeight(
                       0.1, context), // Responsive app bar height
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     borderRadius:
                         BorderRadius.vertical(bottom: Radius.circular(15)),
                     color: Color.fromRGBO(101, 158, 199, 1),
@@ -133,7 +131,7 @@ class _CountryState extends State<CountriesScreen> {
                       Builder(
                         builder: (BuildContext context) {
                           return IconButton(
-                            icon: Icon(Icons.menu),
+                            icon: const Icon(Icons.menu),
                             onPressed: () {
                               Scaffold.of(context).openDrawer();
                             },
@@ -167,15 +165,15 @@ class _CountryState extends State<CountriesScreen> {
                     },
                     decoration: InputDecoration(
                       hintText: 'Current Location',
-                      contentPadding: EdgeInsets.symmetric(
-                          vertical: getResponsiveHeight(0.015, context)),
+                      contentPadding:
+                          EdgeInsets.all(getResponsiveHeight(0.015, context)),
                       prefixIcon: GestureDetector(
                         onTap: () {
                           setState(() {
                             getCurrentLocation();
                           });
                         },
-                        child: Icon(
+                        child: const Icon(
                           Icons.location_on,
                           color: Color.fromRGBO(101, 158, 199, 1),
                         ),
@@ -193,7 +191,7 @@ class _CountryState extends State<CountriesScreen> {
                 BlocBuilder<CountriesCubit, CountriesState>(
                   builder: (context, state) {
                     if (state is CountriesLoading) {
-                      return Center(
+                      return const Center(
                         child: CircularProgressIndicator(),
                       );
                     } else if (state is CountriesSuccess) {
@@ -203,7 +201,7 @@ class _CountryState extends State<CountriesScreen> {
                         child: OrientationBuilder(
                           builder: (context, orientation) {
                             return GridView.builder(
-                              controller: _scrollController,
+                              controller: scrollController,
                               gridDelegate:
                                   SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount:
@@ -243,8 +241,10 @@ class _CountryState extends State<CountriesScreen> {
                                       color: state.response.result[index]
                                                   .countryName ==
                                               searchText
-                                          ? Color.fromRGBO(101, 158, 199, 1)
-                                          : Color.fromRGBO(229, 236, 242, 0.70),
+                                          ? const Color.fromRGBO(
+                                              101, 158, 199, 1)
+                                          : const Color.fromRGBO(
+                                              229, 236, 242, 0.70),
                                     ),
                                     child: Stack(children: [
                                       Column(
@@ -311,8 +311,8 @@ class _CountryState extends State<CountriesScreen> {
                                                       fontSize: (orientation ==
                                                               Orientation
                                                                   .portrait)
-                                                          ? getResponsiveHeight(
-                                                              0.021, context)
+                                                          ? getResponsiveWidth(
+                                                              0.04, context)
                                                           : getResponsiveHeight(
                                                               0.05, context),
                                                       color: state
@@ -321,7 +321,8 @@ class _CountryState extends State<CountriesScreen> {
                                                                   .countryName ==
                                                               searchText
                                                           ? Colors.white
-                                                          : Color(0xff41627E),
+                                                          : const Color(
+                                                              0xff41627E),
                                                       fontWeight:
                                                           FontWeight.w600,
                                                     ),
@@ -340,7 +341,7 @@ class _CountryState extends State<CountriesScreen> {
                         ),
                       );
                     } else {
-                      return Center(
+                      return const Center(
                         child: Text("Something went wrong"),
                       );
                     }

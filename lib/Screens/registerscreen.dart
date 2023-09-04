@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fiers/Screens/oTPLogin.dart';
 import 'package:flutter_fiers/Services/auth_ser.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -118,7 +117,7 @@ class _RegisterPageState extends State<RegisterPage>
                         hintText: 'Email',
                         hintStyle: TextStyle(color: Colors.grey[500]),
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25.0),
+                          borderRadius: BorderRadius.circular(35.0),
                         ),
                         prefixIcon: const Icon(
                           Icons.person,
@@ -141,7 +140,7 @@ class _RegisterPageState extends State<RegisterPage>
                         hintText: 'Password',
                         hintStyle: TextStyle(color: Colors.grey[500]),
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25.0),
+                          borderRadius: BorderRadius.circular(35.0),
                         ),
                         prefixIcon: const Icon(
                           Icons.lock,
@@ -163,7 +162,7 @@ class _RegisterPageState extends State<RegisterPage>
                         hintText: 'Confirm Password',
                         hintStyle: TextStyle(color: Colors.grey[500]),
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25.0),
+                          borderRadius: BorderRadius.circular(35.0),
                         ),
                         prefixIcon: const Icon(
                           Icons.lock_open,
@@ -185,7 +184,7 @@ class _RegisterPageState extends State<RegisterPage>
                         child: ElevatedButton(
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all<Color>(
-                              Color.fromRGBO(101, 158, 199, 1),
+                              const Color.fromRGBO(101, 158, 199, 1),
                             ),
                           ),
                           onPressed: () async {
@@ -233,7 +232,7 @@ class _RegisterPageState extends State<RegisterPage>
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.all(8.0),
                             child: Text(
                               'Or continue with',
                               style: TextStyle(color: Colors.grey[700]),
@@ -258,11 +257,11 @@ class _RegisterPageState extends State<RegisterPage>
                           onTap: () => AuthService().signInWithGoogle(),
                           child: CircleAvatar(
                             radius: getResponsiveWidth(0.08, context),
-                            backgroundImage:
-                                AssetImage('lib/Assets/Images/download.png'),
+                            backgroundImage: const AssetImage(
+                                'lib/Assets/Images/download.png'),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 8,
                         ),
                         GestureDetector(
@@ -278,7 +277,7 @@ class _RegisterPageState extends State<RegisterPage>
                           child: CircleAvatar(
                             radius: getResponsiveWidth(0.08, context),
                             backgroundImage:
-                                AssetImage('lib/Assets/Images/mob.png'),
+                                const AssetImage('lib/Assets/Images/mob.png'),
                           ),
                         )
                       ],
@@ -294,7 +293,7 @@ class _RegisterPageState extends State<RegisterPage>
                           style:
                               GoogleFonts.robotoSlab(color: Colors.grey[700]),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 4,
                         ),
                         GestureDetector(

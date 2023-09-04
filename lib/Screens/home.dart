@@ -36,7 +36,7 @@ class HomeScreen extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute<void>(
-              builder: (BuildContext context) => CountriesScreen(),
+              builder: (BuildContext context) => const CountriesScreen(),
             ),
           );
         } else {
@@ -143,7 +143,7 @@ class HomeScreen extends StatelessWidget {
                       Builder(
                         builder: (BuildContext context) {
                           return IconButton(
-                            icon: Icon(Icons.menu),
+                            icon: const Icon(Icons.menu),
                             onPressed: () {
                               Scaffold.of(context).openDrawer();
                             },

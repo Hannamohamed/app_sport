@@ -16,27 +16,27 @@ class PageSwapperWidget extends StatefulWidget {
 class _PageSwapperWidgetState extends State<PageSwapperWidget> {
   PageController _pageController = PageController(initialPage: 0);
   int _currentPage = 0;
-  int _totalPages = 4;
+  final _totalPages = 4;
   List<Widget> _pages = [
-    PageContent(
+    const PageContent(
       imagePath: "lib/Assets/Images/Vector 1.png",
       title: 'Discover Leagues and Teams',
       description:
           'Explore various football leagues and Teams from around the globe. Get fixtures, standings, and match results.',
     ),
-    PageContent(
+    const PageContent(
       imagePath: "lib/Assets/Images/Vector 2.png",
       title: 'Explore Teams and Players',
       description:
           'Learn about basketball teams and players. Get detailed profiles, player stats, transfer news, and match performances',
     ),
-    PageContent(
+    const PageContent(
       imagePath: "lib/Assets/Images/Vector 3.png",
       title: 'Live Match Updates',
       description:
           'Follow  tennis live matches with real-time updates. Get live scores, match highlights, and in-depth analysis during the game',
     ),
-    PageContent(
+    const PageContent(
       imagePath: "lib/Assets/Images/Vector 4.png",
       title: 'Join the Sport Community',
       description:
@@ -50,11 +50,11 @@ class _PageSwapperWidgetState extends State<PageSwapperWidget> {
       if (hasSeen) {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => Auth()),
+          MaterialPageRoute(builder: (context) => const Auth()),
         );
       } else {
         // Auto-play pages every 3 seconds
-        Timer.periodic(Duration(seconds: 3), (Timer timer) {
+        Timer.periodic(const Duration(seconds: 3), (Timer timer) {
           if (_currentPage < _totalPages - 1) {
             _currentPage++;
           } else {
@@ -113,20 +113,22 @@ class _PageSwapperWidgetState extends State<PageSwapperWidget> {
                           backgroundColor: Colors.white),
                       child: Text(
                         'Skip',
-                        style: GoogleFonts.robotoSlab(color: Color(0xff659EC7)),
+                        style: GoogleFonts.robotoSlab(
+                            color: const Color(0xff659EC7)),
                       ),
                       onPressed: () {
                         setState(() {
                           markOnboardingAsSeen();
                           Navigator.pushReplacement(
                             context,
-                            MaterialPageRoute(builder: (context) => Auth()),
+                            MaterialPageRoute(
+                                builder: (context) => const Auth()),
                           );
                         });
                       },
                     ),
                   ),
-                  SizedBox(width: 100),
+                  const SizedBox(width: 100),
                   Center(
                     child: Container(
                       height: MediaQuery.of(context).size.height * 0.89,
@@ -134,7 +136,7 @@ class _PageSwapperWidgetState extends State<PageSwapperWidget> {
                       child: SmoothPageIndicator(
                         controller: _pageController,
                         count: _totalPages,
-                        effect: SlideEffect(
+                        effect: const SlideEffect(
                           activeDotColor: Color(0xff659EC7),
                           dotColor: Colors.grey,
                           dotWidth: 35,
@@ -143,7 +145,7 @@ class _PageSwapperWidgetState extends State<PageSwapperWidget> {
                         onDotClicked: (index) {
                           _pageController.animateToPage(
                             index,
-                            duration: Duration(milliseconds: 300),
+                            duration: const Duration(milliseconds: 300),
                             curve: Curves.ease,
                           );
                         },
@@ -162,7 +164,7 @@ class _PageSwapperWidgetState extends State<PageSwapperWidget> {
                     child: SmoothPageIndicator(
                       controller: _pageController,
                       count: _totalPages,
-                      effect: SlideEffect(
+                      effect: const SlideEffect(
                         activeDotColor: Color(0xff659EC7),
                         dotColor: Colors.grey,
                         dotWidth: 35,
@@ -171,15 +173,15 @@ class _PageSwapperWidgetState extends State<PageSwapperWidget> {
                       onDotClicked: (index) {
                         _pageController.animateToPage(
                           index,
-                          duration: Duration(milliseconds: 300),
+                          duration: const Duration(milliseconds: 300),
                           curve: Curves.ease,
                         );
                       },
                     ),
                   ),
-                  SizedBox(width: 100),
+                  const SizedBox(width: 100),
                   Container(
-                    height: MediaQuery.of(context).size.height * 0.96,
+                    height: MediaQuery.of(context).size.height * 0.93,
                     alignment: Alignment.bottomRight,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
@@ -189,13 +191,14 @@ class _PageSwapperWidgetState extends State<PageSwapperWidget> {
                           markOnboardingAsSeen();
                           Navigator.pushReplacement(
                             context,
-                            MaterialPageRoute(builder: (context) => Auth()),
+                            MaterialPageRoute(
+                                builder: (context) => const Auth()),
                           );
                         });
                       },
                       child: Text('Done',
-                          style:
-                              GoogleFonts.robotoSlab(color: Color(0xff659EC7))),
+                          style: GoogleFonts.robotoSlab(
+                              color: const Color(0xff659EC7))),
                     ),
                   ),
                 ],

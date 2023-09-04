@@ -2,21 +2,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:flutter_fiers/Data/Cubits/cubits/countries_cubit.dart';
 import 'package:flutter_fiers/Data/Cubits/GetPlayers/cubit/get_players_cubit.dart';
-
+import 'package:flutter_fiers/Data/Cubits/cubits/cubit/pass_cubit.dart';
 import 'package:flutter_fiers/Data/Cubits/cubits/leagues_cubit.dart';
-
 import 'package:flutter_fiers/Data/Cubits/teams_status_cubit/teams_scores_cubit.dart';
-import 'package:flutter_fiers/Screens/auth_screen.dart';
-import 'package:flutter_fiers/Screens/home.dart';
-
-import 'package:flutter_fiers/Screens/loginscreen.dart';
-
 import 'package:flutter_fiers/Screens/splashscreen.dart';
-import 'package:flutter_fiers/Screens/oTPLogin.dart';
-
 import 'package:flutter_fiers/Services/fcm.dart';
 import 'package:flutter_fiers/firebase_options.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -68,9 +59,9 @@ class _MyAppState extends State<MyApp> {
         BlocProvider<TeamsScoresCubit>(
           create: (BuildContext context) => TeamsScoresCubit(),
         ),
-        //  BlocProvider<OTPCubit>(
-        //   create: (BuildContext context) => OTPCubit(),
-        // ),
+        BlocProvider<PassCubit>(
+          create: (BuildContext context) => PassCubit(),
+        ),
       ],
       child: ScreenUtilInit(
         child: MaterialApp(

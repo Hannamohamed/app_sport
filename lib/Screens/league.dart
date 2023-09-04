@@ -71,7 +71,7 @@ class LeagueScreen extends StatelessWidget {
                         Builder(
                           builder: (BuildContext context) {
                             return IconButton(
-                              icon: Icon(Icons.menu),
+                              icon: const Icon(Icons.menu),
                               onPressed: () {
                                 Scaffold.of(context).openDrawer();
                               },
@@ -245,7 +245,7 @@ class LeagueScreen extends StatelessWidget {
                         Builder(
                           builder: (BuildContext context) {
                             return IconButton(
-                              icon: Icon(Icons.menu),
+                              icon: const Icon(Icons.menu),
                               onPressed: () {
                                 Scaffold.of(context).openDrawer();
                               },

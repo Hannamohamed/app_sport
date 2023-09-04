@@ -28,7 +28,7 @@ class NotificationServices {
 
   Future showNotification(RemoteMessage? remoteNotification) async {
     AndroidNotificationDetails androidPlatformChannelSpecifics =
-        AndroidNotificationDetails(
+        const AndroidNotificationDetails(
       "intwin",
       "intwin_channel",
       playSound: true,
@@ -46,7 +46,7 @@ class NotificationServices {
           ?.createNotificationChannel(channel);
     }
     DarwinNotificationDetails darwinNotificationDetails =
-        DarwinNotificationDetails(
+        const DarwinNotificationDetails(
             categoryIdentifier: 'Text', presentSound: true);
     await FirebaseMessaging.instance
         .setForegroundNotificationPresentationOptions(
