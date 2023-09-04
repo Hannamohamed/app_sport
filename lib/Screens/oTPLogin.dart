@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_fiers/Screens/home.dart';
 import 'package:flutter_fiers/Services/auth_ser.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
 import 'package:google_fonts/google_fonts.dart';
 
 class OTPLoginPage extends StatefulWidget {
@@ -17,10 +16,15 @@ class _OTPLoginPageState extends State<OTPLoginPage>
   final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _otpController = TextEditingController();
   bool _loading = false;
+  String generatedOTP = '';
+  String generateOTP() {
+    final Random random = Random();
+    return (1000 + random.nextInt(9000)).toString();
+  }
 
   @override
   void initState() {
-    Fluttertoast.showToast(msg: "App started");
+    // Fluttertoast.showToast(msg: "App started");
     super.initState();
     _fadelogocontroller =
         AnimationController(vsync: this, duration: const Duration(seconds: 2));
@@ -35,13 +39,8 @@ class _OTPLoginPageState extends State<OTPLoginPage>
     return MediaQuery.of(context).size.width * percentage;
   }
 
-  String generateOTP() {
-    final Random random = Random();
-    return (1000 + random.nextInt(9000)).toString();
-  }
-
-  void showOTPDialog(BuildContext context) {
-    String otp = generateOTP();
+  void generateAndShowOTP(BuildContext context) {
+    generatedOTP = generateOTP();
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -50,7 +49,7 @@ class _OTPLoginPageState extends State<OTPLoginPage>
               style: GoogleFonts.robotoSlab(
                   color: const Color.fromRGBO(65, 98, 126, 1),
                   fontWeight: FontWeight.w600)),
-          content: Text('Your OTP is: $otp',
+          content: Text('Your OTP is: $generatedOTP',
               style: GoogleFonts.robotoSlab(
                   color: const Color.fromRGBO(65, 98, 126, 1),
                   fontWeight: FontWeight.w600)),
@@ -59,7 +58,7 @@ class _OTPLoginPageState extends State<OTPLoginPage>
               child: Text('OK'),
               onPressed: () {
                 Navigator.of(context).pop();
-                _otpController.text = otp;
+                _otpController.text = generatedOTP;
               },
             ),
           ],
@@ -78,6 +77,11 @@ class _OTPLoginPageState extends State<OTPLoginPage>
       return;
     }
 
+    if (enteredOTP.isEmpty) {
+      Fluttertoast.showToast(msg: 'Please enter the OTP.');
+      return;
+    }
+
     // Set loading state to true.
     setState(() {
       _loading = true;
@@ -86,8 +90,6 @@ class _OTPLoginPageState extends State<OTPLoginPage>
     // Simulate OTP validation.
     await Future.delayed(
         Duration(seconds: 3)); // Simulate loading for 3 seconds.
-
-    final String generatedOTP = generateOTP();
 
     if (enteredOTP == generatedOTP) {
       // OTP validation successful, navigate to HomeScreen.
@@ -103,7 +105,7 @@ class _OTPLoginPageState extends State<OTPLoginPage>
         msg: 'OTP validation failed. Please check your OTP.',
       );
 
-      // Reset loading state to false.
+      // Reset loading state to false whether validation succeeds or fails.
       setState(() {
         _loading = false;
       });
@@ -208,8 +210,12 @@ class _OTPLoginPageState extends State<OTPLoginPage>
                             Color.fromRGBO(101, 158, 199, 1),
                           ),
                         ),
-                        onPressed:
-                            _loading ? null : () => showOTPDialog(context),
+                        onPressed: _loading
+                            ? null
+                            : () {
+                                // Generate and show OTP when the button is pressed.
+                                generateAndShowOTP(context);
+                              },
                         child: _loading
                             ? CircularProgressIndicator()
                             : Text(
@@ -233,7 +239,12 @@ class _OTPLoginPageState extends State<OTPLoginPage>
                             Color.fromRGBO(101, 158, 199, 1),
                           ),
                         ),
-                        onPressed: _loading ? null : () => verifyOTP(),
+                        onPressed: _loading
+                            ? null
+                            : () {
+                                // Verify OTP when the button is pressed.
+                                verifyOTP();
+                              },
                         child: _loading
                             ? CircularProgressIndicator()
                             : Text(
@@ -246,62 +257,6 @@ class _OTPLoginPageState extends State<OTPLoginPage>
                     ),
                     SizedBox(
                       height: getResponsiveHeight(0.01, context),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 10),
-                      width: 140,
-                      child: ElevatedButton(
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(
-                            Color.fromRGBO(101, 158, 199, 1),
-                          ),
-                        ),
-                        onPressed: () {
-                          // Navigate to the HomeScreen here
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => HomeScreen(),
-                            ),
-                          );
-                        },
-                        child: Text(
-                          'Navigate to Home',
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: getResponsiveHeight(0.01, context),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Divider(
-                              thickness: 0.5,
-                              color: Colors.grey[500],
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Text(
-                              'Or continue with',
-                              style: TextStyle(color: Colors.grey[700]),
-                            ),
-                          ),
-                          Expanded(
-                            child: Divider(
-                              thickness: 0.5,
-                              color: Colors.grey[500],
-                            ),
-                          ),
-                        ],
-                      ),
                     ),
                     SizedBox(
                       height: getResponsiveHeight(0.03, context),
