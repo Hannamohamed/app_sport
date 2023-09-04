@@ -1,17 +1,34 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_fiers/Screens/auth_screen.dart';
+import 'package:flutter_fiers/Screens/loginscreen.dart';
 import 'package:flutter_fiers/Services/auth_ser.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CustomDrawer extends StatelessWidget {
-  CustomDrawer({super.key});
+  CustomDrawer({Key? key}) : super(key: key);
+
   final user = FirebaseAuth.instance.currentUser;
+
   double getResponsiveHeight(double percentage, BuildContext context) {
     return MediaQuery.of(context).size.height * percentage;
   }
 
   double getResponsiveWidth(double percentage, BuildContext context) {
     return MediaQuery.of(context).size.width * percentage;
+  }
+
+  void handleLogout(BuildContext context) async {
+    if (user != null) {
+      await FirebaseAuth.instance.signOut();
+    } else {
+      // If the user is not logged in, navigate to another screen (e.g., login screen).
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => Auth(),
+        ),
+      );
+    }
   }
 
   @override
@@ -68,31 +85,6 @@ class CustomDrawer extends StatelessWidget {
               ),
             ),
           ),
-          // ListTile(
-          //   title: Text(
-          //     'Item 1',
-          //     style: TextStyle(
-          //       fontSize: 18,
-          //       fontWeight: FontWeight.bold,
-          //     ),
-          //   ),
-          //   onTap: () {
-          //     // Handle drawer item 1 tap
-          //   },
-          // ),
-          // ListTile(
-          //   title: Text(
-          //     'Item 2',
-          //     style: TextStyle(
-          //       fontSize: 18,
-          //       fontWeight: FontWeight.bold,
-          //     ),
-          //   ),
-          //   onTap: () {
-          //     // Handle drawer item 2 tap
-          //   },
-          // ),
-
           Padding(
             padding: EdgeInsets.all(getResponsiveWidth(0.03, context)),
             child: Column(
@@ -113,7 +105,7 @@ class CustomDrawer extends StatelessWidget {
                           ),
                         ),
                         TextSpan(
-                          text: user?.email ?? "phone",
+                          text: user?.email ?? "Mobile",
                           style: GoogleFonts.robotoSlab(
                             color: Colors.grey[600],
                             fontSize: getResponsiveHeight(0.02, context),
@@ -137,7 +129,7 @@ class CustomDrawer extends StatelessWidget {
                         ),
                       ),
                       onPressed: () {
-                        FirebaseAuth.instance.signOut();
+                        handleLogout(context);
                       },
                       child: const Text(
                         "LogOut",

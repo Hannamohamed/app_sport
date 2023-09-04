@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_fiers/Data/Cubits/cubits/countries_cubit.dart';
 
+import 'package:flutter_fiers/Data/Cubits/cubits/countries_cubit.dart';
 import 'package:flutter_fiers/Data/Widgets/drawer.dart';
 import 'package:flutter_fiers/Screens/league.dart';
 import 'package:geocoding/geocoding.dart';
@@ -13,26 +14,63 @@ class CountriesScreen extends StatelessWidget {
 
   TextEditingController locationController = TextEditingController();
   ScrollController _scrollController = ScrollController();
+  void jumpToIndex(int index, BuildContext context,
+      {ScrollDirection direction = ScrollDirection.forward}) {
+    locationController.addListener(() {
+      double itemHeight = getResponsiveHeight(0.5, context);
+      double offset = index * itemHeight;
+      Duration(milliseconds: 500);
+      Curves.easeInOut;
+      direction;
+      _scrollController.jumpTo(offset);
+    });
+  }
 
+  int k = 0;
+  String searchText = '';
+  List<dynamic> pOO = [];
+  _checkTextAndScroll(pOO, BuildContext context) {
+    // Replace this logic with your own condition to check if the text matches an item in the GridView
+    locationController.addListener(() {
+      int itemIndex = 0;
+      for (int i = 0; i < pOO.length; i++) {
+        if ('Item $i' == searchText) {
+          itemIndex = i;
+          k = itemIndex;
+          print(itemIndex);
+          break;
+        }
+      }
+      // jumpToIndex(itemIndex, context);
+      String text = searchText;
+      int index = int.tryParse(text) ?? 10;
+      {
+        jumpToIndex(index, context, direction: ScrollDirection.forward);
+      }
+    });
+  }
+
+  // Future jumpToIndex(int index) async {
+  //   _scrollController.animateTo(
+  //     index * 70, // replace itemHeight with the height of your list item
+  //     duration: Duration(milliseconds: 500),
+  //     curve: Curves.easeInOut,
+  //   );
+  //}
   Future<void> getCurrentLocation() async {
     bool serviceEnabled;
-    LocationPermission permission;
-
-    // Check if location services are enabled
+    LocationPermission permission; // Check if location services are enabled
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
       // Location services are not enabled, show an error message or request the user to enable it.
       return Future.error('Location services are disabled.');
-    }
-
-    // Request location permission
+    } // Request location permission
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.deniedForever) {
       // The user has permanently denied permission to access the location.
       return Future.error(
           'Location permissions are permanently denied, we cannot request permissions.');
     }
-
     if (permission == LocationPermission.denied) {
       // The user denied permission, request it
       permission = await Geolocator.requestPermission();
@@ -40,22 +78,20 @@ class CountriesScreen extends StatelessWidget {
         // The user denied permission again, show an error message or request the user to grant permission from the settings
         return Future.error('Location permissions are denied.');
       }
-    }
-
-    // Get the user's current position
-    Position position = await Geolocator.getCurrentPosition();
-
-    // Reverse geocoding to get the address from coordinates
+    } // Get the user's current position
+    Position position = await Geolocator
+        .getCurrentPosition(); // Reverse geocoding to get the address from coordinates
     List<Placemark> placemarks = await placemarkFromCoordinates(
       position.latitude,
       position.longitude,
     );
     if (placemarks.isNotEmpty) {
       Placemark placemark = placemarks.first;
-      String address = placemark.street ?? '';
+      String address = placemark.country ?? '';
+      searchText = address;
       address += "," + (placemark.locality ?? '');
       address += "," + (placemark.administrativeArea ?? '');
-      address += "," + (placemark.country ?? '');
+      address += "," + (placemark.street ?? '');
       locationController.text = address;
     } else {
       locationController.text = 'Address not found';
@@ -73,6 +109,10 @@ class CountriesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     context.read<CountriesCubit>().getCountries();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkTextAndScroll(searchText, context);
+      Duration(seconds: 5);
+    });
     return Scaffold(
       drawer: CustomDrawer(),
       body: SafeArea(
@@ -119,7 +159,7 @@ class CountriesScreen extends StatelessWidget {
                       ),
                       Center(
                         child: Text(
-                          "Select Country",
+                          "Select your favorite sport",
                           style: GoogleFonts.robotoSlab(
                               fontSize: getResponsiveHeight(
                                   0.03, context), // Responsive font size
@@ -138,13 +178,23 @@ class CountriesScreen extends StatelessWidget {
                   child: TextField(
                     controller: locationController,
                     readOnly: true,
+                    onChanged: (value) {
+                      searchText = value;
+                      _checkTextAndScroll(pOO, context);
+                    },
                     decoration: InputDecoration(
-                      contentPadding: EdgeInsets.symmetric(
-                          vertical: getResponsiveHeight(0.015, context)),
                       hintText: 'Current Location',
                       prefixIcon: GestureDetector(
                         onTap: () {
                           getCurrentLocation();
+                          //   String text =searchText;
+                          //  int index = int.tryParse(text) ?? -1;
+                          //   {
+
+                          //      jumpToIndex(index, context,
+                          //         direction: ScrollDirection.forward);
+                          // }
+                          _checkTextAndScroll(pOO, context);
                         },
                         child: Icon(
                           Icons.location_on,
@@ -171,6 +221,7 @@ class CountriesScreen extends StatelessWidget {
                       child: OrientationBuilder(
                         builder: (context, orientation) {
                           return GridView.builder(
+                            controller: _scrollController,
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount:
@@ -178,8 +229,16 @@ class CountriesScreen extends StatelessWidget {
                             ),
                             itemCount: state.response.result.length,
                             itemBuilder: (context, index) {
+                              // _scrollController;
                               return InkWell(
                                 onTap: () {
+                                  // searchText =
+                                  //     state.response.result[index].countryName;
+                                  _checkTextAndScroll(
+                                      state.response.result.length, context);
+                                  //jumpToIndex(index);
+                                  //  InkWell(
+                                  //   onTap: () {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute<void>(
@@ -203,7 +262,11 @@ class CountriesScreen extends StatelessWidget {
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(
                                         getResponsiveWidth(0.15, context)),
-                                    color: Color(0xffe5ecf2),
+                                    color: state.response.result[index]
+                                                .countryName ==
+                                            searchText
+                                        ? Colors.blue
+                                        : Colors.white,
                                   ),
                                   child: Stack(children: [
                                     Column(
@@ -256,7 +319,7 @@ class CountriesScreen extends StatelessWidget {
                                             ),
                                             SizedBox(
                                                 height: getResponsiveHeight(
-                                                    0.01, context)),
+                                                    0.015, context)),
                                             Container(
                                                 alignment: Alignment.center,
                                                 child: Text(
@@ -267,10 +330,8 @@ class CountriesScreen extends StatelessWidget {
                                                     fontSize: (orientation ==
                                                             Orientation
                                                                 .portrait)
-                                                        ? getResponsiveHeight(
-                                                            0.022, context)
-                                                        : getResponsiveHeight(
-                                                            0.05, context),
+                                                        ? 15
+                                                        : 15,
                                                     color: Color(0xff41627E),
                                                     fontWeight: FontWeight.w600,
                                                   ),

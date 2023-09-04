@@ -271,7 +271,7 @@ class _OTPLoginPageState extends State<OTPLoginPage>
                             backgroundImage:
                                 AssetImage('lib/Assets/Images/download.png'),
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ],
