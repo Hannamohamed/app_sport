@@ -95,7 +95,9 @@ class CountryState extends State<CountriesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: CustomDrawer(),
+      drawer: CustomDrawer(
+        phoneNumber: "",
+      ),
       body: SafeArea(
         child: Stack(
           children: [
@@ -215,14 +217,20 @@ class CountryState extends State<CountriesScreen> {
                                   onTap: () {
                                     searchText = countries[index].countryName;
                                     Navigator.push(
-                                      context,
-                                      MaterialPageRoute<void>(
-                                        builder: (BuildContext context) =>
-                                            LeagueScreen(
-                                          idleague: countries[index].countryKey,
-                                        ),
-                                      ),
-                                    );
+                                        context,
+                                        PageRouteBuilder(
+                                          transitionDuration:
+                                              Duration(milliseconds: 500),
+                                          pageBuilder: (context, animation,
+                                                  secondaryAnimation) =>
+                                              FadeTransition(
+                                            opacity: animation,
+                                            child: LeagueScreen(
+                                              idleague:
+                                                  countries[index].countryKey,
+                                            ),
+                                          ),
+                                        ));
                                   },
                                   child: Container(
                                     alignment: Alignment.center,

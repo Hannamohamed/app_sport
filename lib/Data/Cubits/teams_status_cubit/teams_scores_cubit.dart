@@ -10,10 +10,22 @@ part 'teams_scores_state.dart';
 
 class TeamsScoresCubit extends Cubit<TeamsScoresState> {
   TeamsScoresCubit() : super(TeamsScoresInitial());
-
   getTeam(int id) {
     TeamsScorer().getTeams(search.text, id).then((value) {
       if (value != null) emit(TeamsScoresTeams(ourresponse: value));
+    });
+  }
+
+  // Modify the getTeam method to include search functionality
+  void searchTeams(String query, int id) {
+    TeamsScorer().getTeams(query, id).then((value) {
+      if (value != null) {
+        emit(TeamsScoresTeams(ourresponse: value));
+      } else {
+        // Handle error or empty search results here
+      }
+    }).catchError((error) {
+      // Handle errors here
     });
   }
 

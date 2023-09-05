@@ -14,7 +14,9 @@ class Auth extends StatelessWidget {
         builder: (context, snapshot) {
           //User is Logged in
           if (snapshot.hasData) {
-            return HomeScreen();
+            return HomeScreen(
+              phoneNumber: "",
+            );
           }
 
           //User is not Logged in

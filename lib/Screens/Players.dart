@@ -116,7 +116,9 @@ void shareText() {
 
   Widget buildPortraitLayout(BuildContext context) {
     return Scaffold(
-      drawer: CustomDrawer(),
+      drawer: CustomDrawer(
+        phoneNumber: "",
+      ),
       body: SafeArea(
         child: Stack(
           children: [
@@ -326,7 +328,9 @@ void shareText() {
 
   Widget buildLandscapeLayout(BuildContext context) {
     return Scaffold(
-      drawer: CustomDrawer(),
+      drawer: CustomDrawer(
+        phoneNumber: "",
+      ),
       body: SafeArea(
         child: Stack(
           children: [

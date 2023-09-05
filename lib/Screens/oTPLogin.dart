@@ -13,7 +13,7 @@ class OTPLoginPage extends StatefulWidget {
 class _OTPLoginPageState extends State<OTPLoginPage>
     with TickerProviderStateMixin {
   late AnimationController _fadelogocontroller;
-  final TextEditingController _phoneNumberController = TextEditingController();
+  final TextEditingController phoneNumberController = TextEditingController();
   final TextEditingController _otpController = TextEditingController();
   bool _loading = false;
   String generatedOTP = '';
@@ -69,7 +69,7 @@ class _OTPLoginPageState extends State<OTPLoginPage>
 
   void verifyOTP() async {
     print('Verify OTP button pressed');
-    final String phoneNumber = _phoneNumberController.text.trim();
+    final phoneNumber = phoneNumberController.text.trim();
     final String enteredOTP = _otpController.text.trim();
 
     if (phoneNumber.length != 11) {
@@ -96,7 +96,8 @@ class _OTPLoginPageState extends State<OTPLoginPage>
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => HomeScreen(), // Navigate to HomeScreen
+          builder: (context) =>
+              HomeScreen(phoneNumber: phoneNumber), // Navigate to HomeScreen
         ),
       );
     } else {
@@ -157,13 +158,13 @@ class _OTPLoginPageState extends State<OTPLoginPage>
                       height: getResponsiveHeight(0.03, context),
                     ),
                     TextFormField(
-                      controller: _phoneNumberController,
+                      controller: phoneNumberController,
                       keyboardType: TextInputType.phone,
                       decoration: InputDecoration(
                         hintText: 'Mobile number',
                         hintStyle: TextStyle(color: Colors.grey[500]),
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25.0),
+                          borderRadius: BorderRadius.circular(35.0),
                         ),
                         prefixIcon: const Icon(
                           Icons.phone,
@@ -185,7 +186,7 @@ class _OTPLoginPageState extends State<OTPLoginPage>
                         hintText: 'OTP',
                         hintStyle: TextStyle(color: Colors.grey[500]),
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25.0),
+                          borderRadius: BorderRadius.circular(35.0),
                         ),
                         prefixIcon: const Icon(
                           Icons.code,
@@ -198,7 +199,7 @@ class _OTPLoginPageState extends State<OTPLoginPage>
                       ),
                     ),
                     SizedBox(
-                      height: getResponsiveHeight(0.015, context),
+                      height: getResponsiveHeight(0.1, context),
                     ),
                     Container(
                       margin: const EdgeInsets.symmetric(
@@ -258,45 +259,45 @@ class _OTPLoginPageState extends State<OTPLoginPage>
                     SizedBox(
                       height: getResponsiveHeight(0.01, context),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Divider(
-                              thickness: 0.5,
-                              color: Colors.grey[500],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              'Or continue with',
-                              style: TextStyle(color: Colors.grey[700]),
-                            ),
-                          ),
-                          Expanded(
-                            child: Divider(
-                              thickness: 0.5,
-                              color: Colors.grey[500],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        GestureDetector(
-                          onTap: () => AuthService().signInWithGoogle(),
-                          child: CircleAvatar(
-                            radius: getResponsiveWidth(0.08, context),
-                            backgroundImage: const AssetImage(
-                                'lib/Assets/Images/download.png'),
-                          ),
-                        ),
-                      ],
-                    ),
+                    //         Padding(
+                    //           padding: const EdgeInsets.all(8.0),
+                    //           child: Row(
+                    //             children: [
+                    //               Expanded(
+                    //                 child: Divider(
+                    //                   thickness: 0.5,
+                    //                   color: Colors.grey[500],
+                    //                 ),
+                    //               ),
+                    //               Padding(
+                    //                 padding: const EdgeInsets.all(8.0),
+                    //                 child: Text(
+                    //                   'Or continue with',
+                    //                   style: TextStyle(color: Colors.grey[700]),
+                    //                 ),
+                    //               ),
+                    //               Expanded(
+                    //                 child: Divider(
+                    //                   thickness: 0.5,
+                    //                   color: Colors.grey[500],
+                    //                 ),
+                    //               ),
+                    //             ],
+                    //           ),
+                    //         ),
+                    //         Row(
+                    //           mainAxisAlignment: MainAxisAlignment.center,
+                    //           children: [
+                    //             GestureDetector(
+                    //               onTap: () => AuthService().signInWithGoogle(),
+                    //               child: CircleAvatar(
+                    //                 radius: getResponsiveWidth(0.08, context),
+                    //                 backgroundImage: const AssetImage(
+                    //                     'lib/Assets/Images/download.png'),
+                    //               ),
+                    //             ),
+                    //           ],
+                    //         ),
                   ],
                 ),
               ),

@@ -36,7 +36,9 @@ class LeagueScreen extends StatelessWidget {
 
   Widget buildPortraitLayout(BuildContext context) {
     return Scaffold(
-      drawer: CustomDrawer(),
+      drawer: CustomDrawer(
+        phoneNumber: " ",
+      ),
       body: SafeArea(
         child: Stack(
           children: [
@@ -110,17 +112,22 @@ class LeagueScreen extends StatelessWidget {
                                 child: InkWell(
                                   onTap: () {
                                     Navigator.push(
-                                      context,
-                                      MaterialPageRoute<void>(
-                                        builder: (BuildContext context) =>
-                                            TeamsScoresScreen(
-                                          id: state
-                                              .response.result[i].leagueKey,
-                                          name: state
-                                              .response.result[i].leagueName,
-                                        ),
-                                      ),
-                                    );
+                                        context,
+                                        PageRouteBuilder(
+                                          transitionDuration:
+                                              Duration(milliseconds: 500),
+                                          pageBuilder: (context, animation,
+                                                  secondaryAnimation) =>
+                                              FadeTransition(
+                                            opacity: animation,
+                                            child: TeamsScoresScreen(
+                                              id: state
+                                                  .response.result[i].leagueKey,
+                                              name: state.response.result[i]
+                                                  .leagueName,
+                                            ),
+                                          ),
+                                        ));
                                   },
                                   child: Container(
                                     width: getResponsiveWidth(
@@ -210,7 +217,9 @@ class LeagueScreen extends StatelessWidget {
 
   Widget buildLandscapeLayout(BuildContext context) {
     return Scaffold(
-      drawer: CustomDrawer(),
+      drawer: CustomDrawer(
+        phoneNumber: "",
+      ),
       body: SafeArea(
         child: Stack(
           children: [

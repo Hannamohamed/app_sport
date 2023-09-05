@@ -5,7 +5,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class HomeScreen extends StatelessWidget {
-  HomeScreen({super.key});
+  final String phoneNumber;
+  HomeScreen({super.key, required this.phoneNumber});
   List names = ["FootBall", "BasketBall", "Cricket", "Tennis"];
   List images = [
     "lib/Assets/Images/Sports soccer.svg",
@@ -34,11 +35,15 @@ class HomeScreen extends StatelessWidget {
       onTap: () {
         if (index == 0) {
           Navigator.push(
-            context,
-            MaterialPageRoute<void>(
-              builder: (BuildContext context) => const CountriesScreen(),
-            ),
-          );
+              context,
+              PageRouteBuilder(
+                transitionDuration: Duration(milliseconds: 500),
+                pageBuilder: (context, animation, secondaryAnimation) =>
+                    FadeTransition(
+                  opacity: animation,
+                  child: CountriesScreen(),
+                ),
+              ));
         } else {
           showDialog(
             context: context,
@@ -109,7 +114,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: CustomDrawer(),
+      drawer: CustomDrawer(phoneNumber: phoneNumber),
       body: SafeArea(
         child: Stack(
           children: [

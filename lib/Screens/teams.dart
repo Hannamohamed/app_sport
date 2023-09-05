@@ -51,7 +51,6 @@ class _TeamsScoresScreen extends State<TeamsScoresScreen>
 
   void _handleTabChange() {
     if (_tabController.index == 0) {
-      context.read<TeamsScoresCubit>().getTeam(widget.id);
       // Handle home tab press action
     } else if (_tabController.index == 1) {
       // Perform action for the second tab
@@ -60,25 +59,23 @@ class _TeamsScoresScreen extends State<TeamsScoresScreen>
     }
   }
 
+  void _searchTeam() {
+    final searchTerm = search.text;
+    context.read<TeamsScoresCubit>().searchTeams(searchTerm, widget.id);
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TeamsScoresCubit, TeamsScoresState>(
       builder: (context, state) {
         return SafeArea(
           child: Scaffold(
-            drawer: CustomDrawer(),
-            // backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
+            drawer: CustomDrawer(
+              phoneNumber: "",
+            ),
             appBar: AppBar(
               automaticallyImplyLeading: false,
               backgroundColor: const Color.fromRGBO(101, 158, 199, 1),
-              // title: Center(
-              //     child: Text(
-              //   "Select Team",
-              //   style: GoogleFonts.robotoSlab(
-              //       color: Colors.white,
-              //       fontSize: 22.sp,
-              //       fontWeight: FontWeight.w600),
-              // )),
               leading: Builder(
                 builder: (BuildContext context) {
                   return IconButton(
@@ -100,31 +97,33 @@ class _TeamsScoresScreen extends State<TeamsScoresScreen>
                     controller: _tabController,
                     tabs: [
                       Tab(
-                          child: Text(
-                        "Teams",
-                        style: GoogleFonts.robotoSlab(
-                          color: (state is TeamsScoresTeams)
-                              ? Colors.white
-                              : const Color.fromARGB(255, 240, 240, 240),
-                          fontSize: 20.sp,
-                          fontWeight: (state is TeamsScoresTeams)
-                              ? FontWeight.w600
-                              : FontWeight.normal,
+                        child: Text(
+                          "Teams",
+                          style: GoogleFonts.robotoSlab(
+                            color: (state is TeamsScoresTeams)
+                                ? Colors.white
+                                : const Color.fromARGB(255, 240, 240, 240),
+                            fontSize: 20.sp,
+                            fontWeight: (state is TeamsScoresTeams)
+                                ? FontWeight.w600
+                                : FontWeight.normal,
+                          ),
                         ),
-                      )),
+                      ),
                       Tab(
-                          child: Text(
-                        "Top Scorer",
-                        style: GoogleFonts.robotoSlab(
-                          color: (state is TeamsScoresTopScorers)
-                              ? Colors.white
-                              : const Color.fromARGB(255, 240, 240, 240),
-                          fontSize: 18.sp,
-                          fontWeight: (state is TeamsScoresTopScorers)
-                              ? FontWeight.w600
-                              : FontWeight.normal,
+                        child: Text(
+                          "Top Scorer",
+                          style: GoogleFonts.robotoSlab(
+                            color: (state is TeamsScoresTopScorers)
+                                ? Colors.white
+                                : const Color.fromARGB(255, 240, 240, 240),
+                            fontSize: 18.sp,
+                            fontWeight: (state is TeamsScoresTopScorers)
+                                ? FontWeight.w600
+                                : FontWeight.normal,
+                          ),
                         ),
-                      )),
+                      ),
                     ],
                     onTap: (index) {
                       if (index == 0) {
@@ -143,8 +142,9 @@ class _TeamsScoresScreen extends State<TeamsScoresScreen>
             body: Column(
               children: [
                 ClipRRect(
-                  borderRadius:
-                      const BorderRadius.vertical(bottom: Radius.circular(15)),
+                  borderRadius: const BorderRadius.vertical(
+                    bottom: Radius.circular(15),
+                  ),
                   child: Container(
                     height: 15,
                     color: const Color.fromRGBO(101, 158, 199, 1),
@@ -160,7 +160,9 @@ class _TeamsScoresScreen extends State<TeamsScoresScreen>
                           child: SingleChildScrollView(
                             child: Container(
                               padding: const EdgeInsets.symmetric(
-                                  vertical: 15, horizontal: 15),
+                                vertical: 15,
+                                horizontal: 15,
+                              ),
                               height: ScreenUtil().screenHeight * 0.8,
                               decoration: const BoxDecoration(
                                 gradient: LinearGradient(
@@ -172,9 +174,6 @@ class _TeamsScoresScreen extends State<TeamsScoresScreen>
                                   begin: Alignment.topCenter,
                                   end: Alignment.bottomCenter,
                                 ),
-                                /*borderRadius: const BorderRadius.vertical(
-                                  top: Radius.circular(25),
-                                ),*/
                               ),
                               child: TabBarView(
                                 controller: _tabController,
@@ -183,97 +182,36 @@ class _TeamsScoresScreen extends State<TeamsScoresScreen>
                                     opacity: _animation,
                                     child: Column(
                                       children: [
-                                        if (state is TeamsScoresTeams)
-                                          Padding(
-                                            padding: EdgeInsets.only(
-                                                top: getResponsiveHeight(
-                                                    0.008, context),
-                                                bottom: getResponsiveHeight(
-                                                    0.01, context)),
-                                            child: TextFormField(
-                                              controller: search,
-                                              decoration: InputDecoration(
-                                                contentPadding: EdgeInsets.all(
-                                                    getResponsiveHeight(
-                                                        0.015, context)),
-                                                hintText:
-                                                    '  Search player name...',
-                                                suffixIcon: IconButton(
-                                                  icon: const Icon(
-                                                    Icons.search,
-                                                    color: Color.fromRGBO(
-                                                        101, 158, 199, 1),
-                                                  ),
-                                                  onPressed: () {
-                                                    if (search.text != "") {
-                                                      context
-                                                          .read<
-                                                              TeamsScoresCubit>()
-                                                          .getTeam(widget.id);
-                                                    } else {
-                                                      context
-                                                          .read<
-                                                              TeamsScoresCubit>()
-                                                          .getTeam(widget.id);
-                                                    }
-                                                  },
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                            top: getResponsiveHeight(
+                                                0.008, context),
+                                            bottom: getResponsiveHeight(
+                                                0.01, context),
+                                          ),
+                                          child: TextFormField(
+                                            controller: search,
+                                            decoration: InputDecoration(
+                                              contentPadding: EdgeInsets.all(
+                                                  getResponsiveHeight(
+                                                      0.015, context)),
+                                              hintText: 'Search team name...',
+                                              suffixIcon: IconButton(
+                                                icon: const Icon(
+                                                  Icons.search,
+                                                  color: Color.fromRGBO(
+                                                      101, 158, 199, 1),
                                                 ),
-                                                border: OutlineInputBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          25.0),
-                                                ),
+                                                onPressed: _searchTeam,
+                                              ),
+                                              border: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(25.0),
                                               ),
                                             ),
                                           ),
-                                        SizedBox(
-                                          height: 10,
                                         ),
-                                        // Padding(
-                                        //   padding: const EdgeInsets.symmetric(
-                                        //       vertical: 10),
-                                        //   child: TextFormField(
-                                        //     controller: search,
-                                        //     decoration: InputDecoration(
-                                        //       contentPadding: EdgeInsets.all(
-                                        //         getResponsiveHeight(
-                                        //             0.015, context),
-                                        //       ),
-                                        //       enabledBorder:
-                                        //           OutlineInputBorder(
-                                        //         borderRadius:
-                                        //             BorderRadius.circular(
-                                        //                 25.0),
-                                        //       ),
-                                        //       border: OutlineInputBorder(
-                                        //         borderRadius:
-                                        //             BorderRadius.circular(
-                                        //                 25.0),
-                                        //       ),
-                                        //       hintText: 'Search',
-                                        //       suffixIcon: IconButton(
-                                        //         icon: const Icon(
-                                        //           Icons.search,
-                                        //           color: Color.fromRGBO(
-                                        //               101, 158, 199, 1),
-                                        //         ),
-                                        //         onPressed: () {
-                                        //           if (search.text != "") {
-                                        //             context
-                                        //                 .read<
-                                        //                     TeamsScoresCubit>()
-                                        //                 .getTeam(widget.id);
-                                        //           } else {
-                                        //             context
-                                        //                 .read<
-                                        //                     TeamsScoresCubit>()
-                                        //                 .getTeam(widget.id);
-                                        //           }
-                                        //         },
-                                        //       ),
-                                        //     ),
-                                        //   ),
-                                        // ),
+                                        SizedBox(height: 10),
                                         if (state is TeamsScoresTeams &&
                                             state.ourresponse.result != null)
                                           Expanded(
@@ -313,89 +251,112 @@ class _TeamsScoresScreen extends State<TeamsScoresScreen>
                                                                 .all(0.04),
                                                         child: InkWell(
                                                           onTap: () {
-                                                            // searchPlayer.text = "";
                                                             Navigator.push(
-                                                              context,
-                                                              MaterialPageRoute(
-                                                                builder: (BuildContext
-                                                                        context) =>
-                                                                    Players(
-                                                                        id: state
-                                                                            .ourresponse
-                                                                            .result![index]
-                                                                            .teamKey!),
-                                                              ),
-                                                            );
+                                                                context,
+                                                                PageRouteBuilder(
+                                                                  transitionDuration:
+                                                                      Duration(
+                                                                          milliseconds:
+                                                                              500),
+                                                                  pageBuilder: (context,
+                                                                          animation,
+                                                                          secondaryAnimation) =>
+                                                                      FadeTransition(
+                                                                    opacity:
+                                                                        animation,
+                                                                    child:
+                                                                        Players(
+                                                                      id: state
+                                                                          .ourresponse
+                                                                          .result![
+                                                                              index]
+                                                                          .teamKey!,
+                                                                    ),
+                                                                  ),
+                                                                ));
                                                           },
                                                           child: Container(
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            55.0),
-                                                                color: const Color
-                                                                    .fromRGBO(
-                                                                    229,
-                                                                    236,
-                                                                    242,
-                                                                    0.70),
-                                                              ),
-                                                              child: Center(
-                                                                child: Column(
-                                                                    crossAxisAlignment:
-                                                                        CrossAxisAlignment
-                                                                            .center,
-                                                                    children: [
-                                                                      Padding(
-                                                                        padding: const EdgeInsets
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          55.0),
+                                                              color: const Color
+                                                                  .fromRGBO(
+                                                                  229,
+                                                                  236,
+                                                                  242,
+                                                                  0.70),
+                                                            ),
+                                                            child: Center(
+                                                              child: Column(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .center,
+                                                                children: [
+                                                                  Padding(
+                                                                    padding:
+                                                                        const EdgeInsets
                                                                             .only(
-                                                                            top:
-                                                                                30,
-                                                                            right:
-                                                                                20,
-                                                                            left:
-                                                                                20,
-                                                                            bottom:
-                                                                                10),
-                                                                        child:
-                                                                            CircleAvatar(
-                                                                          radius: (getResponsiveHeight(
-                                                                              0.045,
-                                                                              context)),
-                                                                          child:
-                                                                              CachedNetworkImage(
-                                                                            imageUrl:
-                                                                                state.ourresponse.result![index].teamLogo!,
-                                                                            errorWidget: (context, url, error) =>
-                                                                                const Icon(
-                                                                              Icons.person,
-                                                                              size: 85,
-                                                                              color: Color.fromRGBO(65, 98, 126, 1),
-                                                                            ),
-                                                                            fit:
-                                                                                BoxFit.cover,
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                      Text(
-                                                                        state
+                                                                      top: 30,
+                                                                      right: 20,
+                                                                      left: 20,
+                                                                      bottom:
+                                                                          10,
+                                                                    ),
+                                                                    child:
+                                                                        CircleAvatar(
+                                                                      radius: (getResponsiveHeight(
+                                                                          0.045,
+                                                                          context)),
+                                                                      child:
+                                                                          CachedNetworkImage(
+                                                                        imageUrl: state
                                                                             .ourresponse
                                                                             .result![index]
-                                                                            .teamName!,
-                                                                        style: GoogleFonts
-                                                                            .robotoSlab(
-                                                                          color:
-                                                                              const Color(0xff41627E),
-                                                                          fontWeight:
-                                                                              FontWeight.w600,
-                                                                          fontSize: getResponsiveHeight(
-                                                                              0.019,
-                                                                              context),
+                                                                            .teamLogo!,
+                                                                        errorWidget: (context,
+                                                                                url,
+                                                                                error) =>
+                                                                            const Icon(
+                                                                          Icons
+                                                                              .person,
+                                                                          size:
+                                                                              85,
+                                                                          color: Color.fromRGBO(
+                                                                              65,
+                                                                              98,
+                                                                              126,
+                                                                              1),
                                                                         ),
+                                                                        fit: BoxFit
+                                                                            .cover,
                                                                       ),
-                                                                    ]),
-                                                              )),
+                                                                    ),
+                                                                  ),
+                                                                  Text(
+                                                                    state
+                                                                        .ourresponse
+                                                                        .result![
+                                                                            index]
+                                                                        .teamName!,
+                                                                    style: GoogleFonts
+                                                                        .robotoSlab(
+                                                                      color: const Color(
+                                                                          0xff41627E),
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600,
+                                                                      fontSize: getResponsiveHeight(
+                                                                          0.019,
+                                                                          context),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ),
                                                         ),
                                                       ),
                                                     );
@@ -410,9 +371,10 @@ class _TeamsScoresScreen extends State<TeamsScoresScreen>
                                           Column(
                                             children: [
                                               Lottie.asset(
-                                                  'assets/icons/not_found_animation.json',
-                                                  width: 200.w,
-                                                  height: 100.h),
+                                                'lib/Assets/Images/not_found_animation.json',
+                                                width: 200.w,
+                                                height: 100.h,
+                                              ),
                                               Text(
                                                 'Team not found',
                                                 style: GoogleFonts.quicksand(
@@ -453,8 +415,9 @@ class _TeamsScoresScreen extends State<TeamsScoresScreen>
                                                       .symmetric(vertical: 15),
                                                   padding: const EdgeInsets
                                                       .symmetric(
-                                                      vertical: 10,
-                                                      horizontal: 15),
+                                                    vertical: 10,
+                                                    horizontal: 15,
+                                                  ),
                                                   decoration: BoxDecoration(
                                                     borderRadius:
                                                         BorderRadius.circular(
@@ -489,7 +452,7 @@ class _TeamsScoresScreen extends State<TeamsScoresScreen>
                                                             fontWeight:
                                                                 FontWeight.bold,
                                                           ),
-                                                        ), //Text
+                                                        ),
                                                       ),
                                                       SizedBox(width: 20.w),
                                                       Expanded(

@@ -4,7 +4,8 @@ import 'package:flutter_fiers/Screens/auth_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CustomDrawer extends StatelessWidget {
-  CustomDrawer({Key? key}) : super(key: key);
+  final String phoneNumber;
+  CustomDrawer({Key? key, required this.phoneNumber}) : super(key: key);
 
   final user = FirebaseAuth.instance.currentUser;
 
@@ -103,7 +104,7 @@ class CustomDrawer extends StatelessWidget {
                           ),
                         ),
                         TextSpan(
-                          text: user?.email ?? "Mobile",
+                          text: user?.email ?? phoneNumber,
                           style: GoogleFonts.robotoSlab(
                             color: Colors.grey[600],
                             fontSize: getResponsiveHeight(0.02, context),
