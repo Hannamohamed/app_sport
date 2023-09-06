@@ -401,13 +401,13 @@ class _TeamsScoresScreen extends State<TeamsScoresScreen>
                                               i++)
                                             if (state.response.result[i]
                                                         .playerName !=
-                                                    null &&
+                                                    "" &&
                                                 state.response.result[i]
                                                         .teamName !=
-                                                    null &&
+                                                    "" &&
                                                 state.response.result[i]
                                                         .goals !=
-                                                    null)
+                                                    "")
                                               FadeTransition(
                                                 opacity: _animation,
                                                 child: Container(

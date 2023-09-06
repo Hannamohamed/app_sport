@@ -5,16 +5,16 @@ class LeaguesModel {
   });
   late final int success;
   late final List<Result> result;
-  
-  LeaguesModel.fromJson(Map<String, dynamic> json){
+
+  LeaguesModel.fromJson(Map<String, dynamic> json) {
     success = json['success'];
-    result = List.from(json['result']).map((e)=>Result.fromJson(e)).toList();
+    result = List.from(json['result']).map((e) => Result.fromJson(e)).toList();
   }
 
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
     _data['success'] = success;
-    _data['result'] = result.map((e)=>e.toJson()).toList();
+    _data['result'] = result.map((e) => e.toJson()).toList();
     return _data;
   }
 }
@@ -25,17 +25,17 @@ class Result {
     required this.leagueName,
     required this.countryKey,
     required this.countryName,
-     this.leagueLogo,
-     this.countryLogo,
+    this.leagueLogo,
+    this.countryLogo,
   });
   late final int leagueKey;
   late final String leagueName;
   late final int countryKey;
-  late final String countryName;
+  late final String? countryName;
   late final String? leagueLogo;
   late final String? countryLogo;
-  
-  Result.fromJson(Map<String, dynamic> json){
+
+  Result.fromJson(Map<String, dynamic> json) {
     leagueKey = json['league_key'];
     leagueName = json['league_name'];
     countryKey = json['country_key'];
