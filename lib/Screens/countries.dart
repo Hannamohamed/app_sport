@@ -8,7 +8,9 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CountriesScreen extends StatefulWidget {
-  const CountriesScreen({Key? key}) : super(key: key);
+  final String phoneNumber;
+  const CountriesScreen({Key? key, required this.phoneNumber})
+      : super(key: key);
   @override
   CountryState createState() => CountryState();
 }
@@ -73,8 +75,21 @@ class CountryState extends State<CountriesScreen> {
         break;
       }
     }
-    double itemHeight = getResponsiveHeight(0.115, context);
+
+    // Determine the screen height based on orientation
+    double screenHeight = MediaQuery.of(context).size.height;
+
+    // Calculate itemHeight proportionally to screen height
+    double itemHeight;
+    if (MediaQuery.of(context).orientation == Orientation.portrait) {
+      itemHeight = screenHeight * 0.115;
+    } else {
+      // Use a different proportion for landscape mode, adjust as needed
+      itemHeight = screenHeight * 0.136;
+    }
+
     double offset = itemIndex * itemHeight;
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       scrollController.animateTo(
         offset,
@@ -96,7 +111,7 @@ class CountryState extends State<CountriesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: CustomDrawer(
-        phoneNumber: "",
+        phoneNumber: widget.phoneNumber,
       ),
       body: SafeArea(
         child: Stack(
@@ -226,6 +241,7 @@ class CountryState extends State<CountriesScreen> {
                                               FadeTransition(
                                             opacity: animation,
                                             child: LeagueScreen(
+                                              phoneNumber: widget.phoneNumber,
                                               idleague:
                                                   countries[index].countryKey,
                                             ),

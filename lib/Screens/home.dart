@@ -41,7 +41,9 @@ class HomeScreen extends StatelessWidget {
                 pageBuilder: (context, animation, secondaryAnimation) =>
                     FadeTransition(
                   opacity: animation,
-                  child: CountriesScreen(),
+                  child: CountriesScreen(
+                    phoneNumber: phoneNumber,
+                  ),
                 ),
               ));
         } else {

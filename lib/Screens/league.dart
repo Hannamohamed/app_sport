@@ -10,8 +10,9 @@ import '../Data/Cubits/cubits/leagues_cubit.dart';
 
 class LeagueScreen extends StatelessWidget {
   final int idleague;
-
-  const LeagueScreen({super.key, required this.idleague});
+  final String phoneNumber;
+  const LeagueScreen(
+      {super.key, required this.idleague, required this.phoneNumber});
   double getResponsiveHeight(double percentage, BuildContext context) {
     return MediaQuery.of(context).size.height * percentage;
   }
@@ -37,7 +38,7 @@ class LeagueScreen extends StatelessWidget {
   Widget buildPortraitLayout(BuildContext context) {
     return Scaffold(
       drawer: CustomDrawer(
-        phoneNumber: " ",
+        phoneNumber: phoneNumber,
       ),
       body: SafeArea(
         child: Stack(
@@ -121,6 +122,7 @@ class LeagueScreen extends StatelessWidget {
                                               FadeTransition(
                                             opacity: animation,
                                             child: TeamsScoresScreen(
+                                              phoneNumber: phoneNumber,
                                               id: state
                                                   .response.result[i].leagueKey,
                                               name: state.response.result[i]
@@ -218,7 +220,7 @@ class LeagueScreen extends StatelessWidget {
   Widget buildLandscapeLayout(BuildContext context) {
     return Scaffold(
       drawer: CustomDrawer(
-        phoneNumber: "",
+        phoneNumber: phoneNumber,
       ),
       body: SafeArea(
         child: Stack(
@@ -303,6 +305,7 @@ class LeagueScreen extends StatelessWidget {
                                     MaterialPageRoute<void>(
                                       builder: (BuildContext context) =>
                                           TeamsScoresScreen(
+                                        phoneNumber: phoneNumber,
                                         id: state
                                             .response.result[index].leagueKey,
                                         name: state

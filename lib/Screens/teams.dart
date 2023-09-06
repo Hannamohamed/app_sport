@@ -13,7 +13,12 @@ final TextEditingController search = TextEditingController();
 class TeamsScoresScreen extends StatefulWidget {
   final int id;
   final String? name;
-  const TeamsScoresScreen({super.key, required this.id, required this.name});
+  final String phoneNumber;
+  const TeamsScoresScreen(
+      {super.key,
+      required this.id,
+      required this.name,
+      required this.phoneNumber});
 
   @override
   State<TeamsScoresScreen> createState() => _TeamsScoresScreen();
@@ -71,7 +76,7 @@ class _TeamsScoresScreen extends State<TeamsScoresScreen>
         return SafeArea(
           child: Scaffold(
             drawer: CustomDrawer(
-              phoneNumber: "",
+              phoneNumber: widget.phoneNumber,
             ),
             appBar: AppBar(
               automaticallyImplyLeading: false,
@@ -266,6 +271,9 @@ class _TeamsScoresScreen extends State<TeamsScoresScreen>
                                                                         animation,
                                                                     child:
                                                                         Players(
+                                                                      phoneNumber:
+                                                                          widget
+                                                                              .phoneNumber,
                                                                       id: state
                                                                           .ourresponse
                                                                           .result![

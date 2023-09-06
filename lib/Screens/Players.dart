@@ -9,7 +9,8 @@ import 'package:share_plus/share_plus.dart';
 
 class Players extends StatelessWidget {
   final int id;
-  Players({super.key, required this.id});
+  final String phoneNumber;
+  Players({super.key, required this.id, required this.phoneNumber});
   final TextEditingController _searchController = TextEditingController();
   List<dynamic> players = [];
   List<dynamic> filteredPlayers = [];
@@ -117,7 +118,7 @@ void shareText() {
   Widget buildPortraitLayout(BuildContext context) {
     return Scaffold(
       drawer: CustomDrawer(
-        phoneNumber: "",
+        phoneNumber: phoneNumber,
       ),
       body: SafeArea(
         child: Stack(
@@ -329,7 +330,7 @@ void shareText() {
   Widget buildLandscapeLayout(BuildContext context) {
     return Scaffold(
       drawer: CustomDrawer(
-        phoneNumber: "",
+        phoneNumber: phoneNumber,
       ),
       body: SafeArea(
         child: Stack(
