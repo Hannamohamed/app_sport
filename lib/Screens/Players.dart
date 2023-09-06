@@ -402,7 +402,7 @@ void shareText() {
                           },
                         ),
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25.0),
+                          borderRadius: BorderRadius.circular(35.0),
                         ),
                       ),
                     ),
@@ -460,25 +460,27 @@ void shareText() {
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
                                       children: [
+                                        CircleAvatar(
+                                          radius: getResponsiveWidth(0.1,
+                                              context), // Responsive radius
+                                          backgroundImage: NetworkImage(
+                                            state.response.result[index]
+                                                    .playerImage ??
+                                                "https://st3.depositphotos.com/3581215/18899/v/450/depositphotos_188994514-stock-illustration-vector-illustration-male-silhouette-profile.jpg",
+                                          ),
+                                        ),
                                         // CircleAvatar(
-                                        //   radius: getResponsiveWidth(0.1,
-                                        //       context), // Responsive radius
-                                        //   backgroundImage: NetworkImage(
-                                        //     state.response.result[index]
-                                        //             .playerImage ??
-                                        //         "https://st3.depositphotos.com/3581215/18899/v/450/depositphotos_188994514-stock-illustration-vector-illustration-male-silhouette-profile.jpg",
+                                        //   child: CachedNetworkImage(
+                                        //     imageUrl: state.response.result[index]
+                                        //         .playerImage!,
+                                        //     errorWidget: (context, url, error) =>
+                                        //         Icon(Icons.person,
+                                        //             size: getResponsiveWidth(
+                                        //               0.1,
+                                        //               context,
+                                        //             )),
                                         //   ),
                                         // ),
-                                        CachedNetworkImage(
-                                          imageUrl: state.response.result[index]
-                                              .playerImage!,
-                                          errorWidget: (context, url, error) =>
-                                              Icon(Icons.person,
-                                                  size: getResponsiveWidth(
-                                                    0.1,
-                                                    context,
-                                                  )),
-                                        ),
                                         SizedBox(
                                           width: getResponsiveWidth(0.005,
                                               context), // Responsive spacing
